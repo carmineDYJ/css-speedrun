@@ -1,9 +1,9 @@
 <script setup>
-import Nav from './components/Nav.vue'
+import TopNav from './components/TopNav.vue'
 </script>
 
 <template>
-  <Nav />
+  <TopNav />
 </template>
 
 <style lang="scss" scoped>
