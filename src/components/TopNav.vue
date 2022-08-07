@@ -11,7 +11,7 @@
 
 <style lang="scss" scoped>
 .wrapper {
-  padding: 24px 40vw;
+  padding: 24px 36vw;
   display: flex;
   justify-content: center;
   align-content: center;
