@@ -29,8 +29,6 @@ const calculateResult = () => {
   resultList.splice(0)
   try {
     const selectedChildren = questionInvisibleCode.querySelectorAll(props.answer)
-    console.log("selected children", selectedChildren)
-    console.log("children", questionInvisibleCode.getElementsByTagName("*"))
     for (const children of questionInvisibleCode.getElementsByTagName("*")) {
       if (Array.from(selectedChildren).includes(children)) {
         resultList.push(true)

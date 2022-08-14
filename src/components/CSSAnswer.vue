@@ -11,6 +11,7 @@ const updateAnswerInput = () => {
 const nextQuestion = () => {
   emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
   emit('update:answerStatus', 'answering')
+  answerRef.value = ''
 }
 const formSubmit = (event) => {
   event.preventDefault()
@@ -33,7 +34,7 @@ watch(() => props.answerStatus, () => {
 
 <template>
   <form @submit="formSubmit">
-    <input :value="props.answer" @input="(event) => answerRef = event.target.value" />
+    <input :value="answerRef" @input="(event) => answerRef = event.target.value" />
     <button type="submit">{{ buttonTextRef }}</button>
   </form>
 </template>
