@@ -6,7 +6,13 @@ import CSSQuestion from './components/CSSQuestion.vue';
 import CSSQuestionList from './components/CSSQuestionList.vue';
 
 const answerRef = ref(null)
+const currentQuestionIndexRef = ref(0)
+// possible answer status: answering, answerCorrect
+const answerStatusRef = ref('answering')
 
+watch(answerStatusRef, ()=>{
+  console.log("answerStatusRef", answerStatusRef.value)
+})
 
 </script>
 
@@ -14,8 +20,16 @@ const answerRef = ref(null)
   <TopNav />
   <main class="main-content">
     <div class="answer-and-question">
-      <CSSAnswer v-model:answer="answerRef" />
-      <CSSQuestion :answer="answerRef" />
+      <CSSAnswer
+        v-model:answer="answerRef"
+        v-model:answerStatus="answerStatusRef"
+        v-model:currentQuestionIndex="currentQuestionIndexRef"
+      />
+      <CSSQuestion
+        :answer="answerRef"
+        :currentQuestionIndex="currentQuestionIndexRef"
+        v-model:answerStatus="answerStatusRef"
+      />
     </div>
     <CSSQuestionList />
   </main>
