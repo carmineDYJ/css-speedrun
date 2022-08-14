@@ -6,7 +6,7 @@ import style from './CSSQuestion.module.scss'
 const props = defineProps(['answer'])
 
 const questionDisplayCode = CSSQuestions[0]['code']
-console.log(questionDisplayCode.split('\n'))
+// console.log(questionDisplayCode.split('\n'))
 const questionAnswer = CSSQuestions[0]['goal']
 const questionCodeList = questionDisplayCode.split('\n')
 const resultList = reactive([])
@@ -19,7 +19,7 @@ const calculateResult = () => {
   const questionInvisibleCode = questionInvisibleCodeRef.value
   resultList.splice(0)
   try {
-    const selectedChildren = document.querySelectorAll(props.answer)
+    const selectedChildren = questionInvisibleCode.querySelectorAll(props.answer)
     console.log("selected children", selectedChildren)
     for (const children of questionInvisibleCode.getElementsByTagName("*")) {
       if (Array.from(selectedChildren).includes(children)) {
@@ -29,8 +29,10 @@ const calculateResult = () => {
       }
     }
   } catch (error) {
-    resultList.splice(0)
-    console.log("error")
+    // otherwise display result cannot be updated when selector is not valid
+    const wrongSelectorResultList = Array(questionInvisibleCode.getElementsByTagName("*").length).fill(false)
+    Object.assign(resultList, wrongSelectorResultList)
+    console.log("selector is not valid")
   }
 }
 // based on result, update display code
@@ -64,11 +66,11 @@ watch(resultList, (newResultList) => {
   }
 })
 
-onMounted(() => {
-  // console.log("node", questionNode)
-  // console.log("node children: ", questionNode.children)
-  // console.log("all children", questionNode.getElementsByTagName("*"))
-})
+// onMounted(() => {
+//   console.log("node", questionNode)
+//   console.log("node children: ", questionNode.children)
+//   console.log("all children", questionNode.getElementsByTagName("*"))
+// })
 </script>
 
 <template>
