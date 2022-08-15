@@ -3,19 +3,21 @@ import { reactive, ref, watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
 import style from './CSSQuestion.module.scss'
 
-const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus'])
-const emit = defineEmits(['update:answerStatus'])
+const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
+const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
 const questionDisplayCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
 // update question
 watch(() => props.currentQuestionIndex, () => {
-  questionDisplayCode.value = CSSQuestions[props.currentQuestionIndex]['code']
-  questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
-  // remove selected style
-  for (const children of questionVisibleCodeRef.value.children) {
-    children.classList.remove(style['correct-selected'])
-    children.classList.remove(style['wrong-selected'])
+  if (props.currentQuestionIndex <= CSSQuestions.length - 1) {
+    questionDisplayCode.value = CSSQuestions[props.currentQuestionIndex]['code']
+    questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
+    // remove selected style
+    for (const children of questionVisibleCodeRef.value.children) {
+      children.classList.remove(style['correct-selected'])
+      children.classList.remove(style['wrong-selected'])
+    }
   }
 })
 
@@ -49,7 +51,14 @@ const compareResult = () => {
   console.log(questionAnswer.value)
   if (questionAnswer.value.toString() === resultList.toString()) {
     console.log('answer correct')
-    emit('update:answerStatus', 'answerCorrect')
+    console.log("props.questionsAnswered", props.questionsAnswered)
+    console.log("CSSQuestions.length", CSSQuestions.length)
+    if (props.questionsAnswered === CSSQuestions.length - 1) {
+      emit('update:answerStatus', 'allAnswered')
+    } else {
+      emit('update:answerStatus', 'answerCorrect')
+    }
+    emit('update:questionsAnswered', props.questionsAnswered + 1)
   }
 }
 // based on result, update display code

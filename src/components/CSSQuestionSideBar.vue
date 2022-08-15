@@ -1,11 +1,11 @@
 <script setup>
 import CSSQuestions from './CSSQuestions';
 import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
-const props = defineProps(['currentQuestionIndex'])
+const props = defineProps(['questionsAnswered'])
 
 const CSSQuestionTitles = CSSQuestions.map(question => question.title)
-const checkCompletionStatus = (index) => {
-  if (index <= props.currentQuestionIndex - 1) {
+const checkAnsweredStatus = (index) => {
+  if (index <= props.questionsAnswered - 1) {
     return true
   } else {
     return false
@@ -17,7 +17,7 @@ const checkCompletionStatus = (index) => {
   <aside>
     <ol>
       <li v-for="(title, index) in CSSQuestionTitles">
-        <CSSQuestionSidebarTitle :questionTitle="title" :completionStatus="checkCompletionStatus(index)" />
+        <CSSQuestionSidebarTitle :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
       </li>
     </ol>
   </aside>

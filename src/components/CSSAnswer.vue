@@ -11,14 +11,9 @@ const updateAnswerInput = () => {
   // console.log("answerRef", answerRef.value)
 }
 const nextQuestion = () => {
-  // don't jump when reach last question
-  if (props.currentQuestionIndex <= CSSQuestionsCount - 2) {
-    console.log("props.currentQuestionIndex" ,props.currentQuestionIndex)
-    console.log("CSSQuestions.length" ,CSSQuestions.length - 1)
-    emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
-    emit('update:answerStatus', 'answering')
-    answerRef.value = ''
-  }
+  emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
+  emit('update:answerStatus', 'answering')
+  answerRef.value = ''
 }
 const formSubmit = (event) => {
   event.preventDefault()
@@ -26,6 +21,8 @@ const formSubmit = (event) => {
     updateAnswerInput()
   } else if (props.answerStatus === 'answerCorrect') {
     nextQuestion()
+  } else if (props.answerStatus === 'allAnswered') {
+
   }
 }
 
@@ -34,6 +31,8 @@ watch(() => props.answerStatus, () => {
     buttonTextRef.value = 'Submit'
   } else if (props.answerStatus === 'answerCorrect') {
     buttonTextRef.value = 'Next'
+  } else if (props.answerStatus === 'allAnswered') {
+    buttonTextRef.value = 'Congrats!'
   }
 })
 

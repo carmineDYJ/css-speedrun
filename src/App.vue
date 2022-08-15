@@ -10,6 +10,7 @@ const answerRef = ref(null)
 const currentQuestionIndexRef = ref(0)
 // possible answer status: answering, answerCorrect
 const answerStatusRef = ref('answering')
+const questionsAnsweredRef = ref(0)
 
 watch(answerStatusRef, () => {
   console.log("answerStatusRef", answerStatusRef.value)
@@ -25,9 +26,9 @@ watch(answerStatusRef, () => {
         <CSSAnswer v-model:answer="answerRef" v-model:answerStatus="answerStatusRef"
           v-model:currentQuestionIndex="currentQuestionIndexRef" />
         <CSSQuestion :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
-          v-model:answerStatus="answerStatusRef" />
+          v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
-      <CSSQuestionSidebar :currentQuestionIndex="currentQuestionIndexRef" />
+      <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
     </main>
     <Footer />
   </div>
