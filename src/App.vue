@@ -9,7 +9,7 @@ import Footer from './components/Footer.vue';
 const answerRef = ref(null)
 const currentQuestionIndexRef = ref(0)
 // possible answer status: answering, answerCorrect
-const answerStatusRef = ref('answering')
+const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
 
 watch(answerStatusRef, () => {

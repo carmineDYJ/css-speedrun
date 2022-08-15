@@ -51,8 +51,6 @@ const compareResult = () => {
   console.log(questionAnswer.value)
   if (questionAnswer.value.toString() === resultList.toString()) {
     console.log('answer correct')
-    console.log("props.questionsAnswered", props.questionsAnswered)
-    console.log("CSSQuestions.length", CSSQuestions.length)
     if (props.questionsAnswered === CSSQuestions.length - 1) {
       emit('update:answerStatus', 'allAnswered')
     } else {
