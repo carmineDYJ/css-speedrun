@@ -1,16 +1,17 @@
 <script setup>
 import CSSQuestions from './CSSQuestions';
+import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
 const CSSQuestionTitles = CSSQuestions.map(question => question.title)
 </script>
 
 <template>
-  <div>
+  <aside>
     <ol>
       <li v-for="(title, index) in CSSQuestionTitles">
-        {{ title }}
+        <CSSQuestionSidebarTitle :questionTitle="title" />
       </li>
     </ol>
-  </div>
+  </aside>
 </template>
 
 <style lang="scss" scoped>

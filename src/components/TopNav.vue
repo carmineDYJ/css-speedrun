@@ -3,14 +3,14 @@
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="top-nav-wrapper">
     <img class="css3-svg" src="../assets/icons/css3.svg" />
     <h1>CSS速通挑战</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.wrapper {
+.top-nav-wrapper {
   padding: 24px 36vw;
   display: flex;
   justify-content: center;

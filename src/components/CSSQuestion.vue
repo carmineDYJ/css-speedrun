@@ -91,9 +91,11 @@ watch(() => props.answer, () => {
 .question-display {
   // html换行
   white-space: pre-wrap;
+  background-color: #2d2d2d;
 
   >p {
     height: 20px;
+    color: white;
   }
 }
 </style>
