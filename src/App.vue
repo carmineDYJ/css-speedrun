@@ -4,6 +4,7 @@ import TopNav from './components/TopNav.vue'
 import CSSAnswer from './components/CSSAnswer.vue';
 import CSSQuestion from './components/CSSQuestion.vue';
 import CSSQuestionSidebar from './components/CSSQuestionSidebar.vue';
+import Timer from './components/Timer.vue';
 import Footer from './components/Footer.vue';
 
 const answerRef = ref(null)
@@ -28,7 +29,10 @@ watch(answerStatusRef, () => {
         <CSSQuestion :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
           v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
-      <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
+      <div>
+        <Timer />
+        <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
+      </div>
     </main>
     <Footer />
   </div>
@@ -41,17 +45,18 @@ watch(answerStatusRef, () => {
   justify-content: space-between;
   min-height: 100vh;
   min-width: 100vw;
+
   .main-content {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 24px;
-  padding-left: 30vw;
-  padding-right: 30vw;
-  background-color: black;
-  flex-shrink: 0;
-  flex-grow: 1;
-  border-bottom: 1px solid #222;
-  border-top: 1px solid #222;
-}
+    display: flex;
+    justify-content: space-between;
+    padding-top: 24px;
+    padding-left: 30vw;
+    padding-right: 30vw;
+    background-color: black;
+    flex-shrink: 0;
+    flex-grow: 1;
+    border-bottom: 1px solid #222;
+    border-top: 1px solid #222;
+  }
 }
 </style>
