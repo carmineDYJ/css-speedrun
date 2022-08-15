@@ -74,12 +74,6 @@ watch(() => props.answer, () => {
   compareResult()
   updateQuestionDisplayCode()
 })
-
-// onMounted(() => {
-//   console.log("node", questionNode)
-//   console.log("node children: ", questionNode.children)
-//   console.log("all children", questionNode.getElementsByTagName("*"))
-// })
 </script>
 
 <template>

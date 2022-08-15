@@ -5,13 +5,14 @@ const props = defineProps(['answer', 'answerStatus', 'currentQuestionIndex'])
 const emit = defineEmits(['update:answer', 'update:currentQuestionIndex', 'update:answerStatus'])
 const answerRef = ref(null)
 const buttonTextRef = ref('Submit')
+const CSSQuestionsCount = CSSQuestions.length
 const updateAnswerInput = () => {
   emit('update:answer', answerRef.value)
   // console.log("answerRef", answerRef.value)
 }
 const nextQuestion = () => {
   // don't jump when reach last question
-  if (props.currentQuestionIndex <= CSSQuestions.length - 2) {
+  if (props.currentQuestionIndex <= CSSQuestionsCount - 2) {
     console.log("props.currentQuestionIndex" ,props.currentQuestionIndex)
     console.log("CSSQuestions.length" ,CSSQuestions.length - 1)
     emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
