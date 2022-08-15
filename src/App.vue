@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import TopNav from './components/TopNav.vue'
 import CSSAnswer from './components/CSSAnswer.vue';
 import CSSQuestion from './components/CSSQuestion.vue';
-import CSSQuestionList from './components/CSSQuestionList.vue';
+import CSSQuestionSidebar from './components/CSSQuestionSidebar.vue';
 
 const answerRef = ref(null)
 const currentQuestionIndexRef = ref(0)
@@ -31,7 +31,7 @@ watch(answerStatusRef, ()=>{
         v-model:answerStatus="answerStatusRef"
       />
     </div>
-    <CSSQuestionList />
+    <CSSQuestionSidebar />
   </main>
 </template>
 
