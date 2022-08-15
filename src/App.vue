@@ -27,7 +27,7 @@ watch(answerStatusRef, () => {
         <CSSQuestion :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
           v-model:answerStatus="answerStatusRef" />
       </div>
-      <CSSQuestionSidebar />
+      <CSSQuestionSidebar :currentQuestionIndex="currentQuestionIndexRef" />
     </main>
     <Footer />
   </div>

@@ -1,10 +1,12 @@
 <script setup>
-const props = defineProps(['questionTitle'])
+const props = defineProps(['questionTitle', 'completionStatus'])
 </script>
 
 <template>
   <div class="wrapper">
-    <img class="box-svg" src="../assets/icons/box.svg">{{props.questionTitle}}
+    <img v-if="!props.completionStatus" class="box-svg" src="../assets/icons/box.svg">
+    <img v-else class="box-svg" src="../assets/icons/ticked_box.svg">
+    {{props.questionTitle}}
   </div>
 </template>
 
