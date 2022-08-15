@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import CSSQuestions from './CSSQuestions';
 const props = defineProps(['answer', 'answerStatus', 'currentQuestionIndex'])
 const emit = defineEmits(['update:answer', 'update:currentQuestionIndex', 'update:answerStatus'])
 const answerRef = ref(null)
@@ -9,9 +10,14 @@ const updateAnswerInput = () => {
   // console.log("answerRef", answerRef.value)
 }
 const nextQuestion = () => {
-  emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
-  emit('update:answerStatus', 'answering')
-  answerRef.value = ''
+  // don't jump when reach last question
+  if (props.currentQuestionIndex <= CSSQuestions.length - 2) {
+    console.log("props.currentQuestionIndex" ,props.currentQuestionIndex)
+    console.log("CSSQuestions.length" ,CSSQuestions.length - 1)
+    emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
+    emit('update:answerStatus', 'answering')
+    answerRef.value = ''
+  }
 }
 const formSubmit = (event) => {
   event.preventDefault()

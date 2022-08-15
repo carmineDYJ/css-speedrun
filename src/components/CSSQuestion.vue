@@ -8,6 +8,7 @@ const emit = defineEmits(['update:answerStatus'])
 
 const questionDisplayCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
+// update question
 watch(() => props.currentQuestionIndex, () => {
   questionDisplayCode.value = CSSQuestions[props.currentQuestionIndex]['code']
   questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
@@ -96,6 +97,7 @@ watch(() => props.answer, () => {
 .question-display {
   // html换行
   white-space: pre-wrap;
+
   >p {
     height: 20px;
   }
