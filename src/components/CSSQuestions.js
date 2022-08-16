@@ -1,13 +1,25 @@
 const CSSQuestions = [
   {
     title: 'Intro',
-    code: `<ul>
-    <li></li>
-    <li></li>
-    <li></li>
-</ul>`,
-    goal: [false, true, false, false]
+    code: `<div>
+  <span></span>
+  <p>
+      <a></a>
+      <span></span>
+  </p>
+  <span></span>
+</div>`,
+    goal: [false, true, true, false, false, true]
   },
+//   {
+//     title: 'Intro',
+//     code: `<ul>
+//     <li></li>
+//     <li></li>
+//     <li></li>
+// </ul>`,
+//     goal: [false, true, false, false]
+//   },
   {
     title: 'Question 1',
     code: `<div>

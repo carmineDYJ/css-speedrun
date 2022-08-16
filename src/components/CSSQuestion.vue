@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, ref, watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
-import style from './CSSQuestion.module.scss'
 
 const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
@@ -15,8 +14,8 @@ watch(() => props.currentQuestionIndex, () => {
     questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
     // remove selected style
     for (const children of questionVisibleCodeRef.value.children) {
-      children.classList.remove(style['correct-selected'])
-      children.classList.remove(style['wrong-selected'])
+      children.classList.remove('correct-selected')
+      children.classList.remove('wrong-selected')
     }
   }
 })
@@ -31,7 +30,7 @@ const calculateResult = () => {
   const questionInvisibleCode = questionInvisibleCodeRef.value
   resultList.splice(0)
   try {
-    const selectedChildren = questionInvisibleCode.querySelectorAll(props.answer)
+    const selectedChildren = questionInvisibleCode.querySelectorAll(`.question-html > ${props.answer}`)
     for (const children of questionInvisibleCode.getElementsByTagName("*")) {
       if (Array.from(selectedChildren).includes(children)) {
         resultList.push(true)
@@ -60,6 +59,16 @@ const compareResult = () => {
   }
 }
 // based on result, update display code
+// TODO question like below cannot be displayed correctly when input selectors
+// <div>
+//   <span></span>
+//   <p>
+//     <a></a>
+//     <span></span>
+//   </p>
+//   <a>
+// </div>
+
 const updateQuestionDisplayCode = () => {
   const questionVisibleCode = questionVisibleCodeRef.value
   // console.log("node children: ", questionVisibleCode.children)
