@@ -4,7 +4,7 @@
 
 <template>
   <footer>
-    Made by Carminedyj
+    Made by&nbsp;<a href="https://github.com/carmineDYJ/css-speedrun/commits/main">Carmine</a>
   </footer>
 </template>
 
@@ -14,5 +14,13 @@ footer {
   color: white;
   display: flex;
   justify-content: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  > a {
+    color: #4e8ff7
+  }
+  > a:hover {
+    color: #2f6eeb
+  }
 }
 </style>
