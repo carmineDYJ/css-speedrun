@@ -64,7 +64,6 @@ const updateQuestionDisplayCode = () => {
   const questionVisibleCode = questionVisibleCodeRef.value
   // console.log("node children: ", questionVisibleCode.children)
   resultList.forEach((value, index) => {
-    console.log(111)
     questionVisibleCode.children[index].classList.remove('correct-selected')
     questionVisibleCode.children[index].classList.remove('wrong-selected')
   })
@@ -85,7 +84,13 @@ watch(() => props.answer, () => {
 </script>
 
 <template>
-  <div>
+  <div class="css-question-wrapper">
+    <div class="question-hint">
+      <div v-for="(item, index) in questionDisplayCode.split('\n')">
+        <img v-if="questionAnswer[index]" class="hint-svg" src="../assets/icons/hint_arrow.svg">
+        <div v-else class="invisible-hint-placeholder">&nbsp;</div>
+      </div>
+    </div>
     <div class="question-display" ref="questionVisibleCodeRef">
       <p v-for="(item, index) in questionDisplayCode.split('\n')">
         {{ item }}
@@ -96,19 +101,44 @@ watch(() => props.answer, () => {
 </template>
 
 <style lang="scss" scoped>
-.question-display {
-  // html换行
-  white-space: pre-wrap;
+.css-question-wrapper {
+  display: flex;
   background-color: #2d2d2d;
+  padding: 12px;
 
-  >p {
-    height: 20px;
-    color: white;
-    &.correct-selected {
-      border: 1px solid green;
+  .question-hint {
+    display: flex;
+    flex-direction: column;
+    margin-right: 18px;
+
+    .hint-svg {
+      height: 20px;
+      margin-bottom: 6px;
     }
-    &.wrong-selected {
-      border: 1px solid red;
+
+    .invisible-hint-placeholder {
+      height: 20px;
+      margin-bottom: 6px;
+    }
+  }
+
+  .question-display {
+    // html换行
+    white-space: pre-wrap;
+    flex-grow: 1;
+
+    >p {
+      height: 20px;
+      color: white;
+      margin-bottom: 6px;
+
+      &.correct-selected {
+        border: 1px solid green;
+      }
+
+      &.wrong-selected {
+        border: 1px solid red;
+      }
     }
   }
 }
