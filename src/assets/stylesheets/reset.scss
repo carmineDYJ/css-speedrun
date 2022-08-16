@@ -19,3 +19,6 @@ a, li{
 button, input{
   font: inherit;
 }
+textarea:focus, input:focus{
+  outline: none;
+}

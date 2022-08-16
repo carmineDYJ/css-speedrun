@@ -1,5 +1,4 @@
 <script setup>
-  
 </script>
 
 <template>
@@ -16,11 +15,11 @@ footer {
   justify-content: center;
   padding-top: 16px;
   padding-bottom: 16px;
-  > a {
-    color: #4e8ff7
-  }
-  > a:hover {
-    color: #2f6eeb
+  >a {
+    color: #4e8ff7;
+    &:hover {
+      color: #2f6eeb;
+    }
   }
 }
 </style>

@@ -7,7 +7,8 @@ const timerIntervalId = ref(null);
 const start = ref(Date.now());
 const startTimer = () => setInterval(function () {
     let delta = Date.now() - start.value; // seconds elapsed since start
-    currentQuestionSecondsPassed.value = Math.floor(delta / 1000) + previousQuestionsSecondsPassed.value; // in seconds
+    // total seconds passed equal to seconds used on previous questions and current question
+    currentQuestionSecondsPassed.value = Math.floor(delta / 1000) + previousQuestionsSecondsPassed.value;
   }, 1000) // update about every second
 const timePassed = computed(() => {
   let minutes = String(parseInt(currentQuestionSecondsPassed.value / 60)).padStart(2, '0');
@@ -15,8 +16,6 @@ const timePassed = computed(() => {
   return `${minutes}:${seconds}`;
 })
 watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
-  console.log("answerStatus", answerStatus)
-  console.log("prevAnswerStatus", prevAnswerStatus)
   if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
     start.value = Date.now();
     timerIntervalId.value = startTimer();

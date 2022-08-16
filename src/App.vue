@@ -24,9 +24,9 @@ watch(answerStatusRef, () => {
     <TopNav class="top-nav" />
     <main class="main-content">
       <div class="answer-and-question">
-        <CSSAnswer v-model:answer="answerRef" v-model:answerStatus="answerStatusRef"
+        <CSSAnswer class="answer" v-model:answer="answerRef" v-model:answerStatus="answerStatusRef"
           v-model:currentQuestionIndex="currentQuestionIndexRef" />
-        <CSSQuestion :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
+        <CSSQuestion class="question" :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
           v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
       <div>
@@ -57,6 +57,11 @@ watch(answerStatusRef, () => {
     flex-grow: 1;
     border-bottom: 1px solid #222;
     border-top: 1px solid #222;
+    .answer-and-question {
+      .answer {
+        margin-bottom: 12px;
+      }
+    }
   }
 }
 </style>
