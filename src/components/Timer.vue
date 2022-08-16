@@ -1,15 +1,31 @@
 <script setup>
-import { computed, ref } from 'vue';
-const secondsPassed = ref(0)
-let start = Date.now();
-setInterval(function () {
-  let delta = Date.now() - start; // seconds elapsed since start
-  secondsPassed.value = Math.floor(delta / 1000); // in seconds
-}, 1000); // update about every second
+import { computed, ref, watch } from 'vue';
+const props = defineProps(['answerStatus'])
+const currentQuestionSecondsPassed = ref(0)
+const previousQuestionsSecondsPassed = ref(0)
+const timerIntervalId = ref(null);
+const start = ref(Date.now());
+const startTimer = () => setInterval(function () {
+    let delta = Date.now() - start.value; // seconds elapsed since start
+    currentQuestionSecondsPassed.value = Math.floor(delta / 1000) + previousQuestionsSecondsPassed.value; // in seconds
+  }, 1000) // update about every second
 const timePassed = computed(() => {
-  let minutes  = String(parseInt(secondsPassed.value / 60)).padStart(2, '0');
-  let seconds = String(secondsPassed.value % 60).padStart(2, '0');
+  let minutes = String(parseInt(currentQuestionSecondsPassed.value / 60)).padStart(2, '0');
+  let seconds = String(currentQuestionSecondsPassed.value % 60).padStart(2, '0');
   return `${minutes}:${seconds}`;
+})
+watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
+  console.log("answerStatus", answerStatus)
+  console.log("prevAnswerStatus", prevAnswerStatus)
+  if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
+    start.value = Date.now();
+    timerIntervalId.value = startTimer();
+  } else if (answerStatus === 'answerCorrect') {
+    previousQuestionsSecondsPassed.value += currentQuestionSecondsPassed.value;
+    clearInterval(timerIntervalId.value);
+  } else if (answerStatus === 'allAnswered') {
+    clearInterval(timerIntervalId.value);
+  }
 })
 </script>
 

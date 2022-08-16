@@ -9,7 +9,7 @@ import Footer from './components/Footer.vue';
 
 const answerRef = ref(null)
 const currentQuestionIndexRef = ref(0)
-// possible answer status: answering, answerCorrect
+// possible answer status: introduction, answering, answerCorrect, allAnswered
 const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
 
@@ -30,7 +30,7 @@ watch(answerStatusRef, () => {
           v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
       <div>
-        <Timer />
+        <Timer :answerStatus="answerStatusRef" />
         <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
       </div>
     </main>
