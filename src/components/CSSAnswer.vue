@@ -13,6 +13,7 @@ const nextQuestion = () => {
   emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
   emit('update:answerStatus', 'answering')
   answerValueRef.value = ''
+  emit('update:answer', answerValueRef.value)
 }
 const formSubmit = (event) => {
   event.preventDefault()
@@ -59,7 +60,7 @@ watch(() => props.answerStatus, () => {
   border: 1px solid #222;
   border-radius: 4px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 18px;
   margin-right: 6px;
   &.answer-correct {
     border: 1px solid #5d9e53;

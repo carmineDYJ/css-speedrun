@@ -64,14 +64,15 @@ const updateQuestionDisplayCode = () => {
   const questionVisibleCode = questionVisibleCodeRef.value
   // console.log("node children: ", questionVisibleCode.children)
   resultList.forEach((value, index) => {
-    questionVisibleCode.children[index].classList.remove(style['correct-selected'])
-    questionVisibleCode.children[index].classList.remove(style['wrong-selected'])
+    console.log(111)
+    questionVisibleCode.children[index].classList.remove('correct-selected')
+    questionVisibleCode.children[index].classList.remove('wrong-selected')
   })
   resultList.forEach((value, index) => {
     if (value && value === questionAnswer.value[index]) {
-      questionVisibleCode.children[index].classList.add(style['correct-selected'])
+      questionVisibleCode.children[index].classList.add('correct-selected')
     } else if (value && value !== questionAnswer.value[index]) {
-      questionVisibleCode.children[index].classList.add(style['wrong-selected'])
+      questionVisibleCode.children[index].classList.add('wrong-selected')
     }
   })
 }
@@ -103,6 +104,12 @@ watch(() => props.answer, () => {
   >p {
     height: 20px;
     color: white;
+    &.correct-selected {
+      border: 1px solid green;
+    }
+    &.wrong-selected {
+      border: 1px solid red;
+    }
   }
 }
 </style>

@@ -50,8 +50,8 @@ watch(answerStatusRef, () => {
     display: flex;
     justify-content: space-between;
     padding-top: 24px;
-    padding-left: 30vw;
-    padding-right: 30vw;
+    padding-left: 28vw;
+    padding-right: 28vw;
     background-color: black;
     flex-shrink: 0;
     flex-grow: 1;
