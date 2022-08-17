@@ -44,22 +44,38 @@ watch(answerStatusRef, () => {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  min-width: 100vw;
+  max-width: 100vw;
+  background-color: black;
 
   .main-content {
     display: flex;
-    justify-content: space-between;
-    padding-top: 24px;
-    padding-left: 28vw;
-    padding-right: 28vw;
-    background-color: black;
+    justify-content: center;
     flex-shrink: 0;
     flex-grow: 1;
     border-bottom: 1px solid #222;
     border-top: 1px solid #222;
+    padding-top: 24px;
+
     .answer-and-question {
+      margin-right: 24px;
       .answer {
         margin-bottom: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .content-wrapper{
+    .main-content{
+      flex-direction: column;
+      justify-content: flex-start;
+      .answer-and-question{
+        margin-right: 0;
+        margin-bottom: 24px;
+        .answer{
+          margin-bottom: 6px;
+        }
       }
     }
   }

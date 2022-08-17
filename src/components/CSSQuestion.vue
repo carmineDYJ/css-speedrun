@@ -38,7 +38,7 @@ const singleLineCloseTagIndexes = computed(() => {
   return indexes
 })
 // insert false when meet a single line close tag (e.g. </p>)
-const insertFalseOnSingleLineCloseTag = (indexes, array) => {
+const insertFalseOnIndexes = (indexes, array) => {
   // input false on index of array
   for (const index of indexes) {
     array.splice(index, 0, false)
@@ -48,7 +48,7 @@ const insertFalseOnSingleLineCloseTag = (indexes, array) => {
 // used for comparing and updating selected style by selector input
 const questionAnswerAfterInsertFalse = computed(() => {
   // use slice method on array to avoid changing questionAnswer
-  return insertFalseOnSingleLineCloseTag(singleLineCloseTagIndexes.value, questionAnswer.value.slice())
+  return insertFalseOnIndexes(singleLineCloseTagIndexes.value, questionAnswer.value.slice())
 })
 
 // based on answer, update resultList
@@ -89,7 +89,7 @@ const compareResult = () => {
 const updateQuestionDisplayCode = () => {
   const questionVisibleCode = questionVisibleCodeRef.value
   // insert false on single lint close tag index in order to correctly append selected style
-  const resultListAfterInsertFalse = insertFalseOnSingleLineCloseTag(singleLineCloseTagIndexes.value, resultList.slice())
+  const resultListAfterInsertFalse = insertFalseOnIndexes(singleLineCloseTagIndexes.value, resultList.slice())
   resultListAfterInsertFalse.forEach((value, index) => {
     questionVisibleCode.children[index].classList.remove('correct-selected')
     questionVisibleCode.children[index].classList.remove('wrong-selected')
