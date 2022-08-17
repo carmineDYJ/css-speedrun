@@ -29,8 +29,8 @@ watch(answerStatusRef, () => {
         <CSSQuestion class="question" :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
           v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
-      <div>
-        <Timer :answerStatus="answerStatusRef" />
+      <div class="timer-and-sidebar">
+        <Timer class="timer" :answerStatus="answerStatusRef" />
         <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
       </div>
     </main>
@@ -57,15 +57,20 @@ watch(answerStatusRef, () => {
     padding-top: 24px;
 
     .answer-and-question {
-      margin-right: 24px;
+      margin-right: 12px;
       .answer {
+        margin-bottom: 12px;
+      }
+    }
+    .timer-and-sidebar {
+      .timer {
         margin-bottom: 12px;
       }
     }
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 560px) {
   .content-wrapper{
     .main-content{
       flex-direction: column;
@@ -74,6 +79,11 @@ watch(answerStatusRef, () => {
         margin-right: 0;
         margin-bottom: 24px;
         .answer{
+          margin-bottom: 6px;
+        }
+      }
+      .timer-and-sidebar {
+        .timer {
           margin-bottom: 6px;
         }
       }

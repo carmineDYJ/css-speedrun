@@ -3,7 +3,7 @@ const props = defineProps(['questionTitle', 'completionStatus'])
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="question-title-wrapper">
     <img v-if="!props.completionStatus" class="box-svg" src="../assets/icons/box.svg">
     <img v-else class="box-svg" src="../assets/icons/ticked_box.svg">
     {{props.questionTitle}}
@@ -11,7 +11,7 @@ const props = defineProps(['questionTitle', 'completionStatus'])
 </template>
 
 <style lang="scss" scoped>
-.wrapper {
+.question-title-wrapper {
   display: flex;
   align-items: center;
   color: white;

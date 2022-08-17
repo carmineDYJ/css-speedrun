@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .top-nav-wrapper {
   display: flex;
-  background: #111111;
+  background: #111;
   justify-content: center;
   >.top-nav {
     display: flex;
@@ -35,7 +35,7 @@
   }
 
 }
-@media (max-width: 500px) {
+@media (max-width: 560px) {
   .top-nav-wrapper {
     > .top-nav {
       > .css3-svg {

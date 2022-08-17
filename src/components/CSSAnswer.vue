@@ -3,9 +3,11 @@ import { ref, watch } from 'vue';
 
 const props = defineProps(['answer', 'answerStatus', 'currentQuestionIndex'])
 const emit = defineEmits(['update:answer', 'update:currentQuestionIndex', 'update:answerStatus'])
+
 const answerValueRef = ref(null)
 const answerInputRef = ref(null)
 const buttonTextRef = ref('Submit')
+
 const updateAnswerInput = () => {
   emit('update:answer', answerValueRef.value)
 }
@@ -51,13 +53,14 @@ watch(() => props.answerStatus, () => {
 .submit-answer-form {
   display: flex;
   min-width: 350px;
+  padding: 6px 12px;
   .answer-input {
     background-color: #111111;
     color: white;
     border: 1px solid #222;
     border-radius: 4px;
     padding: 12px;
-    font-size: 18px;
+    font-size: 16px;
     margin-right: 6px;
     flex-grow: 1;
     flex-shrink: 1;

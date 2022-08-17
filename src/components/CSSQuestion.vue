@@ -130,13 +130,19 @@ watch(() => props.answer, () => {
 <style lang="scss" scoped>
 .css-question-wrapper {
   display: flex;
-  background-color: #2d2d2d;
-  padding: 12px;
-
+  padding: 0 12px;
+  .question-hint, .question-display {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
   .question-hint {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    margin-right: 18px;
+    align-items: center;
+    background-color: #2d2d2d;
+    border-radius: 2px;
+    margin-right: 2px;
 
     .hint-svg {
       // svg with 4px margin bottom itself
@@ -152,11 +158,14 @@ watch(() => props.answer, () => {
   }
 
   .question-display {
+    flex-grow: 15;
     // html换行
     white-space: pre-wrap;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    background-color: #2d2d2d;
+    border-radius: 2px;
+    padding-left: 12px;
 
     >p {
       height: 20px;
