@@ -104,6 +104,7 @@ const updateQuestionDisplayCode = () => {
   })
 }
 
+// when answer updated, calculate result, compare result with answer, and update display code
 watch(() => props.answer, () => {
   calculateResult()
   compareResult()
