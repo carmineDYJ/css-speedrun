@@ -65,6 +65,7 @@ const calculateResult = () => {
       }
     }
   } catch (error) {
+    // #a82e25
     // otherwise display result cannot be updated when selector is not valid
     const wrongSelectorResultList = Array(questionInvisibleCode.getElementsByTagName("*").length).fill(false)
     Object.assign(resultList, wrongSelectorResultList)
@@ -169,17 +170,17 @@ watch(() => props.answer, () => {
     padding-left: 12px;
 
     >p {
-      height: 20px;
+      height: 26px;
       color: white;
-      margin-bottom: 3px;
-      margin-top: 3px;
+      display: flex;
+      align-items: center;
 
       &.correct-selected {
-        border: 1px solid green;
+        background: 	hsl(112, 31%, 47%, 0.5);
       }
 
       &.wrong-selected {
-        border: 1px solid red;
+        background: hsl(4, 64%, 40%, 0.5);
       }
     }
   }
