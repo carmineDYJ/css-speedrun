@@ -16,6 +16,7 @@
   display: flex;
   background: #111;
   justify-content: center;
+  padding: 6px 0;
   >.top-nav {
     display: flex;
     flex-direction: row;
