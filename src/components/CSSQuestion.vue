@@ -119,27 +119,28 @@ watch(() => props.answer, () => {
     display: flex;
     flex-direction: column;
     margin-right: 18px;
-
     .hint-svg {
-      height: 20px;
-      margin-bottom: 6px;
+      // svg with 4px margin bottom itself
+      margin-top: 5px;
+      height: 16px;
+      margin-bottom: 1px;
     }
-
     .invisible-hint-placeholder {
       height: 20px;
       margin-bottom: 6px;
     }
   }
-
   .question-display {
     // html换行
     white-space: pre-wrap;
     flex-grow: 1;
-
+    display: flex;
+    flex-direction: column;
     >p {
       height: 20px;
       color: white;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
+      margin-top: 3px;
 
       &.correct-selected {
         border: 1px solid green;

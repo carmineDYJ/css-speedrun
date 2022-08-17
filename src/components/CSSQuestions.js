@@ -2,14 +2,12 @@ const CSSQuestions = [
   {
     title: 'Intro',
     code: `<div>
-  <span></span>
   <p>
-      <a></a>
-      <span></span>
+    <a></a>
   </p>
   <span></span>
 </div>`,
-    goal: [false, true, true, false, false, true]
+    goal: [false, true, false, true]
   },
 //   {
 //     title: 'Intro',
