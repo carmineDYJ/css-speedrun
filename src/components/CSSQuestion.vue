@@ -65,6 +65,7 @@ const calculateResult = () => {
       }
     }
   } catch (error) {
+    // TODO emit answerStatus to 'answerInvalidSelector', which will add a red border to the input
     // #a82e25
     // otherwise display result cannot be updated when selector is not valid
     const wrongSelectorResultList = Array(questionInvisibleCode.getElementsByTagName("*").length).fill(false)
