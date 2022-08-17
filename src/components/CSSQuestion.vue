@@ -136,13 +136,14 @@ watch(() => props.answer, () => {
     padding-bottom: 12px;
   }
   .question-hint {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #2d2d2d;
     border-radius: 2px;
     margin-right: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
 
     .hint-svg {
       // svg with 4px margin bottom itself
@@ -158,7 +159,7 @@ watch(() => props.answer, () => {
   }
 
   .question-display {
-    flex-grow: 15;
+    flex-grow: 1;
     // html换行
     white-space: pre-wrap;
     display: flex;
