@@ -19,7 +19,9 @@ const nextQuestion = () => {
 }
 const formSubmit = (event) => {
   event.preventDefault()
-  if (props.answerStatus === 'answering' || props.answerStatus === 'introduction') {
+  if (props.answerStatus === 'answering'
+    || props.answerStatus === 'introduction'
+    || props.answerStatus === 'answerInvalidSelector') {
     updateAnswerInput()
   } else if (props.answerStatus === 'answerCorrect') {
     nextQuestion()
@@ -28,14 +30,21 @@ const formSubmit = (event) => {
   }
 }
 watch(() => props.answerStatus, () => {
-  if (props.answerStatus === 'answering' || props.answerStatus === 'introduction') {
+  if (props.answerStatus === 'answering'
+    || props.answerStatus === 'introduction') {
     answerInputRef.value.classList.remove('answer-correct')
+    answerInputRef.value.classList.remove('answer-invalid')
     buttonTextRef.value = 'Submit'
   } else if (props.answerStatus === 'answerCorrect') {
+    answerInputRef.value.classList.remove('answer-invalid')
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = 'Next'
   } else if (props.answerStatus === 'allAnswered') {
     buttonTextRef.value = 'Congrats!'
+  } else if (props.answerStatus === 'answerInvalidSelector') {
+    answerInputRef.value.classList.remove('answer-correct')
+    answerInputRef.value.classList.add('answer-invalid')
+    buttonTextRef.value = 'Submit'
   }
 })
 
@@ -54,6 +63,7 @@ watch(() => props.answerStatus, () => {
   display: flex;
   min-width: 350px;
   padding: 6px 12px;
+
   .answer-input {
     background-color: #111111;
     color: white;
@@ -67,6 +77,9 @@ watch(() => props.answerStatus, () => {
 
     &.answer-correct {
       border: 1px solid #5d9e53;
+    }
+    &.answer-invalid {
+      border: 1px solid #a82e25;
     }
   }
 
