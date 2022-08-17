@@ -1,16 +1,20 @@
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
 
 const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
-const questionDisplayCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
+const resultList = reactive([])
+const questionInvisibleCodeRef = ref(null)
+const questionVisibleCodeRef = ref(null)
+
+const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
 // update question
 watch(() => props.currentQuestionIndex, () => {
   if (props.currentQuestionIndex <= CSSQuestions.length - 1) {
-    questionDisplayCode.value = CSSQuestions[props.currentQuestionIndex]['code']
+    questionCode.value = CSSQuestions[props.currentQuestionIndex]['code']
     questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
     // remove selected style
     for (const children of questionVisibleCodeRef.value.children) {
@@ -20,17 +24,39 @@ watch(() => props.currentQuestionIndex, () => {
   }
 })
 
-const resultList = reactive([])
-
-const questionInvisibleCodeRef = ref(null)
-const questionVisibleCodeRef = ref(null)
+// when set/update display code style, close tag on a single line should be ignored/jumped
+// otherwise style will be appended on wrong position
+// therefore, we need to insert false when meet a single line close tag (e.g. </p>)
+const singleLineCloseTagIndexes = computed(() => {
+  let indexes = []
+  const questionDisplayCodeList = questionCode.value.split('\n').map(element => element.trim())
+  questionDisplayCodeList.forEach((element, index) => {
+    if (element.startsWith('</')) {
+      indexes.push(index)
+    }
+  })
+  return indexes
+})
+// insert false when meet a single line close tag (e.g. </p>)
+const insertFalseOnSingleLineCloseTag = (indexes, array) => {
+  // input false on index of array
+  for (const index of indexes) {
+    array.splice(index, 0, false)
+  }
+  return array
+}
+// used for comparing and updating selected style by selector input
+const questionAnswerAfterInsertFalse = computed(() => {
+  // use slice method on array to avoid changing questionAnswer
+  return insertFalseOnSingleLineCloseTag(singleLineCloseTagIndexes.value, questionAnswer.value.slice())
+})
 
 // based on answer, update resultList
 const calculateResult = () => {
   const questionInvisibleCode = questionInvisibleCodeRef.value
   resultList.splice(0)
   try {
-    const selectedChildren = questionInvisibleCode.querySelectorAll(`.question-html > ${props.answer}`)
+    const selectedChildren = questionInvisibleCode.querySelectorAll(`.question-html ${props.answer}`)
     for (const children of questionInvisibleCode.getElementsByTagName("*")) {
       if (Array.from(selectedChildren).includes(children)) {
         resultList.push(true)
@@ -45,9 +71,10 @@ const calculateResult = () => {
     console.log("selector is not valid")
   }
 }
+// compare result to see if answer is correct
 const compareResult = () => {
   console.log("resultList", resultList)
-  console.log(questionAnswer.value)
+  console.log("questionAnswer", questionAnswer.value)
   if (questionAnswer.value.toString() === resultList.toString()) {
     console.log('answer correct')
     if (props.questionsAnswered === CSSQuestions.length - 1) {
@@ -59,27 +86,18 @@ const compareResult = () => {
   }
 }
 // based on result, update display code
-// TODO question like below cannot be displayed correctly when input selectors
-// <div>
-//   <span></span>
-//   <p>
-//     <a></a>
-//     <span></span>
-//   </p>
-//   <a>
-// </div>
-
 const updateQuestionDisplayCode = () => {
   const questionVisibleCode = questionVisibleCodeRef.value
-  // console.log("node children: ", questionVisibleCode.children)
-  resultList.forEach((value, index) => {
+  // insert false on single lint close tag index in order to correctly append selected style
+  const resultListAfterInsertFalse = insertFalseOnSingleLineCloseTag(singleLineCloseTagIndexes.value, resultList.slice())
+  resultListAfterInsertFalse.forEach((value, index) => {
     questionVisibleCode.children[index].classList.remove('correct-selected')
     questionVisibleCode.children[index].classList.remove('wrong-selected')
   })
-  resultList.forEach((value, index) => {
-    if (value && value === questionAnswer.value[index]) {
+  resultListAfterInsertFalse.forEach((value, index) => {
+    if (value && value === questionAnswerAfterInsertFalse.value[index]) {
       questionVisibleCode.children[index].classList.add('correct-selected')
-    } else if (value && value !== questionAnswer.value[index]) {
+    } else if (value && value !== questionAnswerAfterInsertFalse.value[index]) {
       questionVisibleCode.children[index].classList.add('wrong-selected')
     }
   })
@@ -95,17 +113,17 @@ watch(() => props.answer, () => {
 <template>
   <div class="css-question-wrapper">
     <div class="question-hint">
-      <div v-for="(item, index) in questionDisplayCode.split('\n')">
-        <img v-if="questionAnswer[index]" class="hint-svg" src="../assets/icons/hint_arrow.svg">
+      <div v-for="(item, index) in questionCode.split('\n')">
+        <img v-if="questionAnswerAfterInsertFalse[index]" class="hint-svg" src="../assets/icons/hint_arrow.svg">
         <div v-else class="invisible-hint-placeholder">&nbsp;</div>
       </div>
     </div>
     <div class="question-display" ref="questionVisibleCodeRef">
-      <p v-for="(item, index) in questionDisplayCode.split('\n')">
+      <p v-for="(item, index) in questionCode.split('\n')">
         {{ item }}
       </p>
     </div>
-    <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionDisplayCode"></div>
+    <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
   </div>
 </template>
 
@@ -119,23 +137,27 @@ watch(() => props.answer, () => {
     display: flex;
     flex-direction: column;
     margin-right: 18px;
+
     .hint-svg {
       // svg with 4px margin bottom itself
       margin-top: 5px;
       height: 16px;
       margin-bottom: 1px;
     }
+
     .invisible-hint-placeholder {
       height: 20px;
       margin-bottom: 6px;
     }
   }
+
   .question-display {
     // html换行
     white-space: pre-wrap;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+
     >p {
       height: 20px;
       color: white;
