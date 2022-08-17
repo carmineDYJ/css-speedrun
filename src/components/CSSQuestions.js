@@ -1,6 +1,6 @@
 const CSSQuestions = [
   {
-    title: 'Intro',
+    title: 'Introduction',
     code: `<ul>
     <li></li>
     <li></li>

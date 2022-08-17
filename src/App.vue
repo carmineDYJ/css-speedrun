@@ -31,7 +31,7 @@ watch(answerStatusRef, () => {
       </div>
       <div class="timer-and-sidebar">
         <Timer class="timer" :answerStatus="answerStatusRef" />
-        <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" />
+        <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
       </div>
     </main>
     <Footer />

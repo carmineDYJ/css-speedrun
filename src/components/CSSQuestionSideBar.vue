@@ -1,7 +1,7 @@
 <script setup>
 import CSSQuestions from './CSSQuestions';
 import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
-const props = defineProps(['questionsAnswered'])
+const props = defineProps(['questionsAnswered', 'currentQuestionIndex'])
 
 const CSSQuestionTitles = CSSQuestions.map(question => question.title)
 const checkAnsweredStatus = (index) => {
@@ -17,7 +17,8 @@ const checkAnsweredStatus = (index) => {
   <aside class="sidebar-wrapper">
     <ol class="sidebar">
       <li v-for="(title, index) in CSSQuestionTitles">
-        <CSSQuestionSidebarTitle :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
+        <CSSQuestionSidebarTitle v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
+        <CSSQuestionSidebarTitle v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
       </li>
     </ol>
   </aside>
@@ -37,6 +38,11 @@ const checkAnsweredStatus = (index) => {
 
     >li {
       margin-bottom: 12px;
+      font-size: 16px;
+      > .answering {
+        font-weight: bolder;
+        font-size: 20px;
+      }
     }
   }
 }

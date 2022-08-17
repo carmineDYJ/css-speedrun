@@ -15,9 +15,10 @@ const props = defineProps(['questionTitle', 'completionStatus'])
   display: flex;
   align-items: center;
   color: white;
-  font-size: 16px;
   .box-svg {
-    height: 24px;
+    height: 20px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     margin-right: 16px;
   }
 }
