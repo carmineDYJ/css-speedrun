@@ -6,7 +6,8 @@ const CSSQuestions = [
     <li></li>
     <li></li>
 </ul>`,
-    goal: [false, true, false, false]
+    goal: [false, true, false, false],
+    answer: 'li:first-child',
   },
   {
     title: 'Question 1',
@@ -17,6 +18,7 @@ const CSSQuestions = [
     <p></p>
 </div>`,
     goal: [false, true, false, true, true],
+    answer: 'p:not(.foo)',
   },
   {
     title: 'Question 2',
@@ -30,6 +32,7 @@ const CSSQuestions = [
   <li></li>
 </ul>`,
     goal: [false, false, false, true, false, true, false, true],
+    answer: 'li:nth-child(2n + 3)',
   }
 ]
 

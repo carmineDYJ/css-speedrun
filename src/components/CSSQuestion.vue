@@ -11,6 +11,11 @@ const questionVisibleCodeRef = ref(null)
 
 const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
+
+const questionCodeList = computed(() => {
+  return questionCode.value.split('\n')
+})
+
 // update question
 watch(() => props.currentQuestionIndex, () => {
   if (props.currentQuestionIndex <= CSSQuestions.length - 1) {
@@ -70,7 +75,6 @@ const calculateResult = () => {
     const wrongSelectorResultList = Array(questionInvisibleCode.getElementsByTagName("*").length).fill(false)
     Object.assign(resultList, wrongSelectorResultList)
     emit('update:answerStatus', 'answerInvalidSelector')
-    console.log("selector is not valid")
   }
 }
 // compare result to see if answer is correct
@@ -115,18 +119,20 @@ watch(() => props.answer, () => {
 
 <template>
   <div class="css-question-wrapper">
-    <div class="question-hint">
-      <div v-for="(item, index) in questionCode.split('\n')">
-        <img v-if="questionAnswerAfterInsertFalse[index]" class="hint-svg" src="../assets/icons/hint_arrow.svg">
-        <div v-else class="invisible-hint-placeholder">&nbsp;</div>
+    <div class="question-display">
+      <div class="question-hint-arrow">
+        <div v-for="(item, index) in questionCode.split('\n')">
+          <img v-if="questionAnswerAfterInsertFalse[index]" class="hint-arrow-svg" src="../assets/icons/hint_arrow.svg">
+          <div v-else class="invisible-hint-placeholder">&nbsp;</div>
+        </div>
       </div>
+      <div class="question-code" ref="questionVisibleCodeRef">
+        <p v-for="(item, index) in questionCode.split('\n')">
+          {{ questionCodeList[index] }}
+        </p>
+      </div>
+      <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
     </div>
-    <div class="question-display" ref="questionVisibleCodeRef">
-      <p v-for="(item, index) in questionCode.split('\n')">
-        {{ item }}
-      </p>
-    </div>
-    <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
   </div>
 </template>
 
@@ -134,11 +140,14 @@ watch(() => props.answer, () => {
 .css-question-wrapper {
   display: flex;
   padding: 0 12px;
-  .question-hint, .question-display {
-    padding-top: 12px;
+  .question-display {
+    display: flex;
+    flex-grow: 1;
+    .question-hint-arrow, .question-code {
     padding-bottom: 12px;
   }
-  .question-hint {
+
+  .question-hint-arrow {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -148,7 +157,7 @@ watch(() => props.answer, () => {
     padding-left: 8px;
     padding-right: 8px;
 
-    .hint-svg {
+    .hint-arrow-svg {
       // svg with 4px margin bottom itself
       margin-top: 5px;
       height: 16px;
@@ -161,7 +170,7 @@ watch(() => props.answer, () => {
     }
   }
 
-  .question-display {
+  .question-code {
     flex-grow: 1;
     // html换行
     white-space: pre-wrap;
@@ -178,13 +187,14 @@ watch(() => props.answer, () => {
       align-items: center;
 
       &.correct-selected {
-        background: 	hsl(112, 31%, 47%, 0.5);
+        background: hsl(112, 31%, 47%, 0.5);
       }
 
       &.wrong-selected {
         background: hsl(4, 64%, 40%, 0.5);
       }
     }
+  }
   }
 }
 </style>
