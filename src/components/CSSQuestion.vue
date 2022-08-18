@@ -144,6 +144,7 @@ watch(() => props.answer, () => {
     display: flex;
     flex-grow: 1;
     .question-hint-arrow, .question-code {
+    padding-top: 12px;
     padding-bottom: 12px;
   }
 
@@ -179,6 +180,7 @@ watch(() => props.answer, () => {
     background-color: #2d2d2d;
     border-radius: 2px;
     padding-left: 12px;
+    padding-right: 12px;
 
     >p {
       height: 26px;
