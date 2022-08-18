@@ -13,8 +13,16 @@ const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
 
 const questionCodeList = computed(() => {
-  return questionCode.value.split('\n')
+  const codeList = questionCode.value.split('\n')
+  const result = []
+  const regex = RegExp('[A-Za-z]+', 'g')
+  for(const codeLine of codeList) {
+    const elementNamesExtracted = codeLine.match(regex)
+    console.log("elementNamesExtracted", elementNamesExtracted)
+  }
+  return result
 })
+console.log("questionCodeList", questionCodeList.value)
 
 // update question
 watch(() => props.currentQuestionIndex, () => {
@@ -128,7 +136,7 @@ watch(() => props.answer, () => {
       </div>
       <div class="question-code" ref="questionVisibleCodeRef">
         <p v-for="(item, index) in questionCode.split('\n')">
-          {{ questionCodeList[index] }}
+          {{ item }}
         </p>
       </div>
       <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
