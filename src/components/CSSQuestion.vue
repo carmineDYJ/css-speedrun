@@ -1,28 +1,20 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, onBeforeMount, reactive, ref, watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
 
 const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
+const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
+const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
+
 const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
 const questionVisibleCodeRef = ref(null)
 
-const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
-const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
-
-const questionCodeList = computed(() => {
-  const codeList = questionCode.value.split('\n')
-  const result = []
-  const regex = RegExp('[A-Za-z]+', 'g')
-  for(const codeLine of codeList) {
-    const elementNamesExtracted = codeLine.match(regex)
-    console.log("elementNamesExtracted", elementNamesExtracted)
-  }
-  return result
+const questionCodeLineList = computed(() => {
+  return questionCode.value.split('\n')
 })
-console.log("questionCodeList", questionCodeList.value)
 
 // update question
 watch(() => props.currentQuestionIndex, () => {
@@ -123,6 +115,7 @@ watch(() => props.answer, () => {
   compareResult()
   updateQuestionDisplayCode()
 })
+
 </script>
 
 <template>
@@ -135,9 +128,11 @@ watch(() => props.answer, () => {
         </div>
       </div>
       <div class="question-code" ref="questionVisibleCodeRef">
-        <p v-for="(item, index) in questionCode.split('\n')">
-          {{ item }}
-        </p>
+        <div class="question-code-line" v-for="(item, index) in questionCodeLineList">
+          <p>
+            {{ item }}
+          </p>
+        </div>
       </div>
       <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
     </div>
@@ -148,63 +143,75 @@ watch(() => props.answer, () => {
 .css-question-wrapper {
   display: flex;
   padding: 0 12px;
+
   .question-display {
     display: flex;
     flex-grow: 1;
-    .question-hint-arrow, .question-code {
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
 
-  .question-hint-arrow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #2d2d2d;
-    border-radius: 2px;
-    margin-right: 2px;
-    padding-left: 8px;
-    padding-right: 8px;
-
-    .hint-arrow-svg {
-      // svg with 4px margin bottom itself
-      margin-top: 5px;
-      height: 16px;
-      margin-bottom: 1px;
+    .question-hint-arrow,
+    .question-code {
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
 
-    .invisible-hint-placeholder {
-      height: 20px;
-      margin-bottom: 6px;
-    }
-  }
-
-  .question-code {
-    flex-grow: 1;
-    // html换行
-    white-space: pre-wrap;
-    display: flex;
-    flex-direction: column;
-    background-color: #2d2d2d;
-    border-radius: 2px;
-    padding-left: 12px;
-    padding-right: 12px;
-
-    >p {
-      height: 26px;
-      color: white;
+    .question-hint-arrow {
       display: flex;
+      flex-direction: column;
       align-items: center;
+      background-color: #2d2d2d;
+      border-radius: 2px;
+      margin-right: 2px;
+      padding-left: 8px;
+      padding-right: 8px;
 
-      &.correct-selected {
-        background: hsl(112, 31%, 47%, 0.5);
+      .hint-arrow-svg {
+        // svg with 4px margin bottom itself
+        margin-top: 5px;
+        height: 16px;
+        margin-bottom: 1px;
       }
 
-      &.wrong-selected {
-        background: hsl(4, 64%, 40%, 0.5);
+      .invisible-hint-placeholder {
+        height: 20px;
+        margin-bottom: 6px;
       }
     }
-  }
+
+    .question-code {
+      flex-grow: 1;
+      // html换行
+      white-space: pre-wrap;
+      display: flex;
+      flex-direction: column;
+      background-color: #2d2d2d;
+      border-radius: 2px;
+      padding-left: 12px;
+      padding-right: 12px;
+
+      >.question-code-line {
+        p {
+          height: 26px;
+          color: #ccc;
+          display: flex;
+          align-items: center;
+          font-size: 18px;
+
+          >.tag {
+            color: #d47d7d;
+            font-family: 'Courier New';
+          }
+        }
+
+        &.correct-selected {
+          background: hsl(112, 31%, 47%, 0.5);
+        }
+
+        &.wrong-selected {
+          background: hsl(4, 64%, 40%, 0.5);
+        }
+      }
+
+    }
   }
 }
 </style>
