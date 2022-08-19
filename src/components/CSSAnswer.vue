@@ -40,6 +40,8 @@ watch(() => props.answerStatus, () => {
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = 'Next'
   } else if (props.answerStatus === 'allAnswered') {
+    answerInputRef.value.classList.remove('answer-invalid')
+    answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = 'Congrats!'
   } else if (props.answerStatus === 'answerInvalidSelector') {
     answerInputRef.value.classList.remove('answer-correct')
