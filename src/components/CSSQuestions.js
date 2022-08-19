@@ -10,7 +10,7 @@ const CSSQuestions = [
     answer: 'li:first-child',
   },
   {
-    title: 'Question 1',
+    title: 'Question1',
     code: `<div>
     <p></p>
     <p class="foo"></p>
@@ -21,7 +21,7 @@ const CSSQuestions = [
     answer: 'p:not(.foo)',
   },
   {
-    title: 'Question 2',
+    title: 'Question2',
     code: `<ul>
   <li></li>
   <li></li>

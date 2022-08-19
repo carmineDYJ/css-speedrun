@@ -1,7 +1,8 @@
 <script setup>
+import { watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
 import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
-const props = defineProps(['questionsAnswered', 'currentQuestionIndex'])
+const props = defineProps(['questionsAnswered', 'currentQuestionIndex', 'answerTimeArray'])
 
 const CSSQuestionTitles = CSSQuestions.map(question => question.title)
 const checkAnsweredStatus = (index) => {
@@ -17,8 +18,8 @@ const checkAnsweredStatus = (index) => {
   <aside class="sidebar-wrapper">
     <ol class="sidebar">
       <li v-for="(title, index) in CSSQuestionTitles">
-        <CSSQuestionSidebarTitle v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
-        <CSSQuestionSidebarTitle v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" />
+        <CSSQuestionSidebarTitle v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTimeObj="props.answerTimeArray[index]" />
+        <CSSQuestionSidebarTitle v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTimeObj="props.answerTimeArray[index]" />
       </li>
     </ol>
   </aside>

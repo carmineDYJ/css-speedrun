@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import TopNav from './components/TopNav.vue'
 import CSSAnswer from './components/CSSAnswer.vue';
 import CSSQuestion from './components/CSSQuestion.vue';
@@ -12,9 +12,14 @@ const currentQuestionIndexRef = ref(0)
 // possible answer status: introduction, answering, answerCorrect, allAnswered
 const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
+const answerTimeArray = reactive([])
+const currentQuestionAnswerTimeRef = ref(null)
 
 watch(answerStatusRef, () => {
   console.log("answerStatusRef", answerStatusRef.value)
+})
+watch(currentQuestionAnswerTimeRef, () => {
+  answerTimeArray.push(currentQuestionAnswerTimeRef.value)
 })
 
 </script>
@@ -30,8 +35,8 @@ watch(answerStatusRef, () => {
           v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
       </div>
       <div class="timer-and-sidebar">
-        <Timer class="timer" :answerStatus="answerStatusRef" />
-        <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
+        <Timer class="timer" :answerStatus="answerStatusRef" :currentQuestionIndex="currentQuestionIndexRef" v-model:currentQuestionAnswerTime="currentQuestionAnswerTimeRef" />
+        <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" :answerTimeArray="answerTimeArray" />
       </div>
     </main>
     <Footer />

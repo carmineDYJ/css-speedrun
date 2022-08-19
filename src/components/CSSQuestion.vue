@@ -12,7 +12,7 @@ const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
 const questionVisibleCodeRef = ref(null)
 
-const questionCodeLineList = computed(() => {
+const questionCodeLineArray = computed(() => {
   return questionCode.value.split('\n')
 })
 
@@ -79,8 +79,8 @@ const calculateResult = () => {
 }
 // compare result to see if answer is correct
 const compareResult = () => {
-  console.log("resultList", resultList)
-  console.log("questionAnswer", questionAnswer.value)
+  // console.log("resultList", resultList)
+  // console.log("questionAnswer", questionAnswer.value)
   if (questionAnswer.value.toString() === resultList.toString()) {
     console.log('answer correct')
     if (props.questionsAnswered === CSSQuestions.length - 1) {
@@ -128,7 +128,7 @@ watch(() => props.answer, () => {
         </div>
       </div>
       <div class="question-code" ref="questionVisibleCodeRef">
-        <div class="question-code-line" v-for="(item, index) in questionCodeLineList">
+        <div class="question-code-line" v-for="(item, index) in questionCodeLineArray">
           <p>
             {{ item }}
           </p>

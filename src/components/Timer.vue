@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps(['answerStatus', 'answerTimeArray'])
-const emit = defineEmits(['update:answerTimeArray'])
+const props = defineProps(['answerStatus', 'currentQuestionAnswerTime', 'currentQuestionIndex'])
+const emit = defineEmits(['update:currentQuestionAnswerTime'])
 
 const currentQuestionSecondsPassed = ref(0)
 const previousQuestionsSecondsPassed = ref(0)
@@ -22,14 +22,23 @@ const timePassed = computed(() => {
   return `${minutes}:${seconds}`;
 })
 watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
-  console.log("status updated")
   if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
     start.value = Date.now();
     timerIntervalId.value = startTimer();
   } else if (answerStatus === 'answerCorrect') {
+    // the reason for emitting a obj instead of a int is when answer time for two questions are the same,
+    // the emitted value will be the same, so the answer time for the second question cannot be detected in App watch
+    emit('update:currentQuestionAnswerTime', {
+      currentQuestionIndex: props.currentQuestionIndex,
+      timeUsed: currentQuestionSecondsPassed.value,
+    })
     previousQuestionsSecondsPassed.value += currentQuestionSecondsPassed.value;
     clearInterval(timerIntervalId.value);
   } else if (answerStatus === 'allAnswered') {
+    emit('update:currentQuestionAnswerTime', {
+      currentQuestionIndex: props.currentQuestionIndex,
+      timeUsed: currentQuestionSecondsPassed.value,
+    })
     clearInterval(timerIntervalId.value);
   }
 })
