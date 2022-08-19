@@ -1,24 +1,28 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps(['answerStatus'])
+const props = defineProps(['answerStatus', 'answerTimeArray'])
+const emit = defineEmits(['update:answerTimeArray'])
 
 const currentQuestionSecondsPassed = ref(0)
 const previousQuestionsSecondsPassed = ref(0)
+const totalSecondsPassed = ref(0)
 const timerIntervalId = ref(null);
 const start = ref(Date.now());
 
 const startTimer = () => setInterval(function () {
   let delta = Date.now() - start.value; // seconds elapsed since start
   // total seconds passed equal to seconds used on previous questions and current question
-  currentQuestionSecondsPassed.value = Math.floor(delta / 1000) + previousQuestionsSecondsPassed.value;
+  currentQuestionSecondsPassed.value = Math.floor(delta / 1000)
+  totalSecondsPassed.value = currentQuestionSecondsPassed.value + previousQuestionsSecondsPassed.value;
 }, 1000) // update about every second
 const timePassed = computed(() => {
-  let minutes = String(parseInt(currentQuestionSecondsPassed.value / 60)).padStart(2, '0');
-  let seconds = String(currentQuestionSecondsPassed.value % 60).padStart(2, '0');
+  let minutes = String(parseInt(totalSecondsPassed.value / 60)).padStart(2, '0');
+  let seconds = String(totalSecondsPassed.value % 60).padStart(2, '0');
   return `${minutes}:${seconds}`;
 })
 watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
+  console.log("status updated")
   if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
     start.value = Date.now();
     timerIntervalId.value = startTimer();
