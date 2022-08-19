@@ -25,14 +25,15 @@ const formatTimeUsed = (timeUsed) => {
 
 <style lang="scss" scoped>
 .question-title-wrapper {
+  min-width: 260px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: white;
 
   .question-title {
     display: flex;
     align-items: center;
-    margin-right: 12px;
 
     .box-svg {
       height: 20px;

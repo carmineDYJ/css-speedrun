@@ -36,7 +36,7 @@
   }
 
 }
-@media (max-width: 560px) {
+@media (max-width: 700px) {
   .top-nav-wrapper {
     > .top-nav {
       > .css3-svg {

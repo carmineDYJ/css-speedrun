@@ -75,7 +75,7 @@ watch(currentQuestionAnswerTimeRef, () => {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 700px) {
   .content-wrapper{
     .main-content{
       flex-direction: column;
