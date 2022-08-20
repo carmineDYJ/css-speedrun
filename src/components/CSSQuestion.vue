@@ -1,12 +1,13 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import CSSQuestions from './CSSQuestions';
 
 const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
 const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
-const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
+const questionGoal = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
+const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['answer'])
 
 const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
@@ -20,7 +21,8 @@ const questionCodeLineArray = computed(() => {
 watch(() => props.currentQuestionIndex, () => {
   if (props.currentQuestionIndex <= CSSQuestions.length - 1) {
     questionCode.value = CSSQuestions[props.currentQuestionIndex]['code']
-    questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['goal']
+    questionGoal.value = CSSQuestions[props.currentQuestionIndex]['goal']
+    questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['answer']
     // remove selected style
     for (const children of questionVisibleCodeRef.value.children) {
       children.classList.remove('correct-selected')
@@ -53,7 +55,7 @@ const insertFalseOnIndexes = (indexes, array) => {
 // used for comparing and updating selected style by selector input
 const questionAnswerAfterInsertFalse = computed(() => {
   // use slice method on array to avoid changing questionAnswer
-  return insertFalseOnIndexes(singleLineCloseTagIndexes.value, questionAnswer.value.slice())
+  return insertFalseOnIndexes(singleLineCloseTagIndexes.value, questionGoal.value.slice())
 })
 
 // based on answer, update resultList
@@ -81,7 +83,7 @@ const calculateResult = () => {
 const compareResult = () => {
   // console.log("resultList", resultList)
   // console.log("questionAnswer", questionAnswer.value)
-  if (questionAnswer.value.toString() === resultList.toString()) {
+  if (questionGoal.value.toString() === resultList.toString()) {
     console.log('answer correct')
     if (props.questionsAnswered === CSSQuestions.length - 1) {
       emit('update:answerStatus', 'allAnswered')
@@ -116,25 +118,29 @@ watch(() => props.answer, () => {
   updateQuestionDisplayCode()
 })
 
+
 </script>
 
 <template>
   <div class="css-question-wrapper">
-    <div class="question-display">
-      <div class="question-hint-arrow">
-        <div v-for="(item, index) in questionCode.split('\n')">
-          <img v-if="questionAnswerAfterInsertFalse[index]" class="hint-arrow-svg" src="../assets/icons/hint_arrow.svg">
-          <div v-else class="invisible-hint-placeholder">&nbsp;</div>
+    <div class="question-content-wrapper">
+      <div class="question-display">
+        <div class="question-hint-arrow">
+          <div v-for="(item, index) in questionCode.split('\n')">
+            <img v-if="questionAnswerAfterInsertFalse[index]" class="hint-arrow-svg"
+              src="../assets/icons/hint_arrow.svg">
+            <div v-else class="invisible-hint-placeholder">&nbsp;</div>
+          </div>
         </div>
-      </div>
-      <div class="question-code" ref="questionVisibleCodeRef">
-        <div class="question-code-line" v-for="(item, index) in questionCodeLineArray">
-          <p>
-            {{ item }}
-          </p>
+        <div class="question-code" ref="questionVisibleCodeRef">
+          <div class="question-code-line" v-for="(item, index) in questionCodeLineArray">
+            <p>
+              {{ item }}
+            </p>
+          </div>
         </div>
+        <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
       </div>
-      <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
     </div>
   </div>
 </template>
@@ -142,75 +148,80 @@ watch(() => props.answer, () => {
 <style lang="scss" scoped>
 .css-question-wrapper {
   display: flex;
-  padding: 0 12px;
+  flex-direction: column;
 
-  .question-display {
+  .question-content-wrapper {
     display: flex;
-    flex-grow: 1;
+    padding: 0 12px;
 
-    .question-hint-arrow,
-    .question-code {
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-
-    .question-hint-arrow {
+    .question-display {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #2d2d2d;
-      border-radius: 2px;
-      margin-right: 2px;
-      padding-left: 8px;
-      padding-right: 8px;
-
-      .hint-arrow-svg {
-        // svg with 4px margin bottom itself
-        margin-top: 5px;
-        height: 16px;
-        margin-bottom: 1px;
-      }
-
-      .invisible-hint-placeholder {
-        height: 20px;
-        margin-bottom: 6px;
-      }
-    }
-
-    .question-code {
       flex-grow: 1;
-      // html换行
-      white-space: pre-wrap;
-      display: flex;
-      flex-direction: column;
-      background-color: #2d2d2d;
-      border-radius: 2px;
-      padding-left: 12px;
-      padding-right: 12px;
 
-      >.question-code-line {
-        p {
-          height: 26px;
-          color: #ccc;
-          display: flex;
-          align-items: center;
-          font-size: 18px;
+      .question-hint-arrow,
+      .question-code {
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
 
-          >.tag {
-            color: #d47d7d;
-            font-family: 'Courier New';
+      .question-hint-arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #2d2d2d;
+        border-radius: 2px;
+        margin-right: 2px;
+        padding-left: 8px;
+        padding-right: 8px;
+
+        .hint-arrow-svg {
+          // svg with 4px margin bottom itself
+          margin-top: 5px;
+          height: 16px;
+          margin-bottom: 1px;
+        }
+
+        .invisible-hint-placeholder {
+          height: 20px;
+          margin-bottom: 6px;
+        }
+      }
+
+      .question-code {
+        flex-grow: 1;
+        // html换行
+        white-space: pre-wrap;
+        display: flex;
+        flex-direction: column;
+        background-color: #2d2d2d;
+        border-radius: 2px;
+        padding-left: 12px;
+        padding-right: 12px;
+
+        >.question-code-line {
+          p {
+            height: 26px;
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+
+            >.tag {
+              color: #d47d7d;
+              font-family: 'Courier New';
+            }
+          }
+
+          &.correct-selected {
+            background: hsl(112, 31%, 47%, 0.5);
+          }
+
+          &.wrong-selected {
+            background: hsl(4, 64%, 40%, 0.5);
           }
         }
 
-        &.correct-selected {
-          background: hsl(112, 31%, 47%, 0.5);
-        }
-
-        &.wrong-selected {
-          background: hsl(4, 64%, 40%, 0.5);
-        }
       }
-
     }
   }
 }

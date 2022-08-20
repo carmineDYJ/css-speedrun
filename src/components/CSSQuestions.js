@@ -33,7 +33,7 @@ const CSSQuestions = [
 </ul>`,
     goal: [false, false, false, true, false, true, false, true],
     answer: 'li:nth-child(2n + 3)',
-  }
+  },
 ]
 
 export default CSSQuestions

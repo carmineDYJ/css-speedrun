@@ -9,7 +9,7 @@ import Footer from './components/Footer.vue';
 
 const answerRef = ref(null)
 const currentQuestionIndexRef = ref(0)
-// possible answer status: introduction, answering, answerCorrect, allAnswered
+// possible answer status: introduction, answering, answerCorrect, answerWrong, allAnswered
 const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
 const answerTimeArray = reactive([])
