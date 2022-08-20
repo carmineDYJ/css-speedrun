@@ -36,21 +36,21 @@ const formSubmit = (event) => {
   }
 }
 watch(() => props.answerStatus, () => {
+  answerInputRef.value.classList.remove('answer-correct')
+  answerInputRef.value.classList.remove('answer-invalid')
+  answerInputRef.value.removeAttribute('disabled')
   if (props.answerStatus === 'answering'
     || props.answerStatus === 'introduction') {
-    answerInputRef.value.classList.remove('answer-correct')
-    answerInputRef.value.classList.remove('answer-invalid')
     buttonTextRef.value = '提交'
   } else if (props.answerStatus === 'answerCorrect') {
-    answerInputRef.value.classList.remove('answer-invalid')
+    answerInputRef.value.setAttribute('disabled', '')
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = '下一题'
   } else if (props.answerStatus === 'allAnswered') {
-    answerInputRef.value.classList.remove('answer-invalid')
+    answerInputRef.value.setAttribute('disabled', '')
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = '恭喜!'
   } else if (props.answerStatus === 'answerInvalidSelector') {
-    answerInputRef.value.classList.remove('answer-correct')
     answerInputRef.value.classList.add('answer-invalid')
     buttonTextRef.value = '提交'
   }
@@ -154,7 +154,7 @@ watch(() => props.answerStatus, (answerStatus) => {
 
       &:hover {
         background-color: #2f6eeb;
-        ;
+        cursor: pointer;
       }
     }
   }
