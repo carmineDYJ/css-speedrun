@@ -3,7 +3,7 @@
 
 <template>
   <footer>
-    Made by&nbsp;<a href="https://github.com/carmineDYJ/css-speedrun/commits/main">Carmine</a>
+    Made by&nbsp;<a href="https://github.com/carmineDYJ/css-speedrun">Carmine</a>
   </footer>
 </template>
 
