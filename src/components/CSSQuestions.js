@@ -8,6 +8,8 @@ const CSSQuestions = [
 </ul>`,
     goal: [false, true, false, false],
     answer: 'li:first-child',
+    textHint: '用一个会选择第一个子元素的伪类',
+    linkHint: 'https://developer.mozilla.org/en-US/docs/Web/CSS/:first-child',
   },
   {
     title: 'Question1',
@@ -19,6 +21,8 @@ const CSSQuestions = [
 </div>`,
     goal: [false, true, false, true, true],
     answer: 'p:not(.foo)',
+    textHint: '用一个不匹配某个类名的伪类',
+    linkHint: 'https://developer.mozilla.org/en-US/docs/Web/CSS/:not',
   },
   {
     title: 'Question2',

@@ -8,10 +8,16 @@ const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
 const questionGoal = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
 const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['answer'])
+const questionTextHint = ref(CSSQuestions[props.currentQuestionIndex]['textHint'])
+const questionLinkHint = ref(CSSQuestions[props.currentQuestionIndex]['linkHint'])
 
 const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
 const questionVisibleCodeRef = ref(null)
+
+const showTextHint = ref(false)
+const showLinkHint = ref(false)
+const showTextHintContent = ref(false)
 
 const questionCodeLineArray = computed(() => {
   return questionCode.value.split('\n')
@@ -23,6 +29,10 @@ watch(() => props.currentQuestionIndex, () => {
     questionCode.value = CSSQuestions[props.currentQuestionIndex]['code']
     questionGoal.value = CSSQuestions[props.currentQuestionIndex]['goal']
     questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['answer']
+    questionTextHint.value = CSSQuestions[props.currentQuestionIndex]['textHint']
+    questionLinkHint.value = CSSQuestions[props.currentQuestionIndex]['linkHint']
+    showTextHint.value = false
+    showLinkHint.value = false
     // remove selected style
     for (const children of questionVisibleCodeRef.value.children) {
       children.classList.remove('correct-selected')
@@ -30,6 +40,18 @@ watch(() => props.currentQuestionIndex, () => {
     }
   }
 })
+
+// show text hint after first 10 seconds
+setTimeout(() => {
+  showTextHint.value = true
+}, 2000)
+setTimeout(() => {
+  showLinkHint.value = true
+}, 4000)
+// show text hint content when mouse hover on text hint
+const showTextHintContentEvent = () => {
+  showTextHintContent.value = true
+}
 
 // when set/update display code style, close tag on a single line should be ignored/jumped
 // otherwise style will be appended on wrong position
@@ -142,6 +164,20 @@ watch(() => props.answer, () => {
         <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
       </div>
     </div>
+    <div class="question-hint">
+      <div class="text-hint" v-if="questionTextHint && showTextHint" @mouseover="showTextHintContent = true"
+        @mouseleave="showTextHintContent = false">
+        我是一个提示
+        <div class="text-hint-content" v-if="showTextHintContent" v-html="questionTextHint">
+        </div>
+      </div>
+      <div class="link-hint" v-if="questionLinkHint && showLinkHint">
+        <a :href="questionLinkHint" target="_blank">我是另一个提示</a>
+      </div>
+      <div class="placeholder-hint">
+        &#12288;
+      </div>
+    </div>
   </div>
 </template>
 
@@ -153,6 +189,7 @@ watch(() => props.answer, () => {
   .question-content-wrapper {
     display: flex;
     padding: 0 12px;
+    margin-bottom: 6px;
 
     .question-display {
       display: flex;
@@ -221,6 +258,40 @@ watch(() => props.answer, () => {
           }
         }
 
+      }
+    }
+  }
+
+  .question-hint {
+    color: #ccc;
+    padding: 0 12px;
+    display: flex;
+
+    >.text-hint {
+      position: relative;
+      margin-right: 12px;
+
+      &:hover {
+        color: white;
+      }
+
+      >.text-hint-content {
+        font-weight: bolder;
+        width: max-content;
+        position: absolute;
+        font-size: 16px;
+        top: 24px;
+        left: 0;
+        background-color: #2d2d2d;
+        border-radius: 4px;
+        padding: 6px;
+        color: white;
+      }
+    }
+
+    >.link-hint {
+      &:hover {
+        color: white;
       }
     }
   }
