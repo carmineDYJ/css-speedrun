@@ -294,6 +294,10 @@ watch(() => props.answer, () => {
         color: white;
       }
     }
+
+    >.placeholder-hint {
+      visibility: hidden;
+    }
   }
 }
 </style>
