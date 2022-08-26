@@ -42,12 +42,19 @@ watch(() => props.currentQuestionIndex, () => {
 })
 
 // show text hint after first 10 seconds
-setTimeout(() => {
-  showTextHint.value = true
-}, 10000)
-setTimeout(() => {
-  showLinkHint.value = true
-}, 20000)
+if (questionTextHint.value) {
+  setTimeout(() => {
+    showTextHint.value = true
+  }, 10000)
+  setTimeout(() => {
+    showLinkHint.value = true
+  }, 20000)
+} else {
+  setTimeout(() => {
+    showLinkHint.value = true
+  }, 10000)
+}
+
 
 // when set/update display code style, close tag on a single line should be ignored/jumped
 // otherwise style will be appended on wrong position
@@ -167,8 +174,11 @@ watch(() => props.answer, () => {
         <div class="text-hint-content" v-if="showTextHintContent" v-html="questionTextHint">
         </div>
       </div>
-      <div class="link-hint" v-if="questionLinkHint && showLinkHint">
+      <div class="link-hint" v-if="questionTextHint && questionLinkHint && showLinkHint">
         <a :href="questionLinkHint" target="_blank">我是另一个提示</a>
+      </div>
+      <div class="link-hint" v-if="!questionTextHint && questionLinkHint && showLinkHint">
+        <a :href="questionLinkHint" target="_blank">我是一个提示</a>
       </div>
       <div class="placeholder-hint">
         &#12288;
