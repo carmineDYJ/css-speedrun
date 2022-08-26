@@ -44,10 +44,10 @@ watch(() => props.currentQuestionIndex, () => {
 // show text hint after first 10 seconds
 setTimeout(() => {
   showTextHint.value = true
-}, 2000)
+}, 10000)
 setTimeout(() => {
   showLinkHint.value = true
-}, 4000)
+}, 20000)
 // show text hint content when mouse hover on text hint
 const showTextHintContentEvent = () => {
   showTextHintContent.value = true
