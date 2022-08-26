@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
-import CSSQuestions from './CSSQuestions';
+import CSSQuestions from '../questions/CSSQuestions';
 
 const props = defineProps(['answer', 'answerStatus', 'currentQuestionIndex'])
 const emit = defineEmits(['update:answer', 'update:currentQuestionIndex', 'update:answerStatus'])

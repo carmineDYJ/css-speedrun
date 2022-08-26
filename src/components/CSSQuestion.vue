@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
-import CSSQuestions from './CSSQuestions';
+import CSSQuestions from '../questions/CSSQuestions';
 
 const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
@@ -48,10 +48,6 @@ setTimeout(() => {
 setTimeout(() => {
   showLinkHint.value = true
 }, 20000)
-// show text hint content when mouse hover on text hint
-const showTextHintContentEvent = () => {
-  showTextHintContent.value = true
-}
 
 // when set/update display code style, close tag on a single line should be ignored/jumped
 // otherwise style will be appended on wrong position

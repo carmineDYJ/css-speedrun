@@ -1,6 +1,6 @@
 const CSSQuestions = [
   {
-    title: 'Introduction',
+    title: '热身',
     code: `<ul>
     <li></li>
     <li></li>
@@ -12,7 +12,7 @@ const CSSQuestions = [
     linkHint: 'https://developer.mozilla.org/en-US/docs/Web/CSS/:first-child',
   },
   {
-    title: 'Question1',
+    title: '问题1',
     code: `<div>
     <p></p>
     <p class="foo"></p>
@@ -25,7 +25,7 @@ const CSSQuestions = [
     linkHint: 'https://developer.mozilla.org/en-US/docs/Web/CSS/:not',
   },
   {
-    title: 'Question2',
+    title: '问题2',
     code: `<ul>
   <li></li>
   <li></li>
