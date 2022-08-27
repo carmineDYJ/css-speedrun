@@ -247,11 +247,11 @@ watch(() => props.answer, () => {
             color: #ccc;
             display: flex;
             align-items: center;
-            font-size: 18px;
+            font-size: 16px;
+            font-family: 'Consolas';
 
             >.tag {
               color: #d47d7d;
-              font-family: 'Courier New';
             }
           }
 

@@ -37,15 +37,15 @@ const formatTimeUsed = (timeUsed) => {
 
     .box-svg {
       height: 20px;
-      margin-top: 3px;
-      margin-bottom: 3px;
       margin-right: 16px;
     }
   }
+
   .time-used {
     color: #ccc;
     font-weight: light;
   }
+
   .time-used-placeholder {
     visibility: hidden;
   }
