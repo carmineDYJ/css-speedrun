@@ -66,7 +66,6 @@ watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
     border: 2px solid #222;
     border-radius: 4px;
     background-color: #111;
-    padding: 3px 6px;
   }
 }
 </style>
