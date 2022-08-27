@@ -194,7 +194,8 @@ watch(() => props.answer, () => {
     margin-bottom: 6px;
     display: flex;
 
-    .question-hint-arrow,.question-code {
+    .question-hint-arrow,
+    .question-code {
       padding-top: 12px;
       padding-bottom: 12px;
     }
@@ -224,6 +225,7 @@ watch(() => props.answer, () => {
 
     .question-code {
       flex-grow: 1;
+      max-width: 302px;
       // html换行
       white-space: pre-wrap;
       display: flex;
@@ -295,6 +297,16 @@ watch(() => props.answer, () => {
 
     >.placeholder-hint {
       visibility: hidden;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .css-question-wrapper {
+    .question-display {
+      .question-code {
+        max-width: 100%;
+      }
     }
   }
 }

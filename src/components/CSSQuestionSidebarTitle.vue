@@ -50,4 +50,9 @@ const formatTimeUsed = (timeUsed) => {
     visibility: hidden;
   }
 }
+@media (max-width: 260px) {
+  .question-title-wrapper {
+    min-width: auto;
+  }
+}
 </style>
