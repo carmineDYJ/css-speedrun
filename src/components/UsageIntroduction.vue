@@ -10,9 +10,9 @@
         <div>
           输入CSS选择器，使得仅有被箭头
           <img class="hint-arrow-svg" src="../assets/icons/hint_arrow.svg" />
-          指向的DOM元素被选中，然后点击提交按钮
+          指向的DOM元素被选中，然后点击提交按钮。
         </div>
-        <p>在你成功完成热身题后，计时器将开始计时</p>
+        <p>在你成功完成热身题后，计时器将开始计时。</p>
       </div>
     </details>
   </div>
