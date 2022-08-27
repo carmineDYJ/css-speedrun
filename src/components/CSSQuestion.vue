@@ -156,11 +156,11 @@ watch(() => props.answer, () => {
         </div>
       </div>
       <div class="question-code" ref="questionVisibleCodeRef">
-        <div class="question-code-line" v-for="(item, index) in questionCodeLineArray">
+        <code class="question-code-line" v-for="(item, index) in questionCodeLineArray">
           <p>
             {{ item }}
           </p>
-        </div>
+        </code>
       </div>
       <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
     </div>
@@ -227,6 +227,7 @@ watch(() => props.answer, () => {
       // html换行
       white-space: pre-wrap;
       display: flex;
+      overflow: auto;
       flex-direction: column;
       background-color: #2d2d2d;
       border-radius: 2px;
@@ -235,6 +236,7 @@ watch(() => props.answer, () => {
 
       >.question-code-line {
         p {
+          min-width: max-content;
           height: 26px;
           color: #ccc;
           display: flex;
