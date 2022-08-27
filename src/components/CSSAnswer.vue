@@ -81,17 +81,19 @@ watch(() => props.answerStatus, (answerStatus) => {
 
 <template>
   <div class="css-answer-wrapper">
-    <form @submit="formSubmit" class="submit-answer-form">
-      <input class="answer-input" ref="answerInputRef" placeholder="输入CSS选择器，例如: ol > li" autocomplete="off"
-        :value="answerValueRef" @input="(event) => answerValueRef = event.target.value" />
-      <button class="submit-button" type="submit">{{ buttonTextRef }}</button>
-    </form>
-    <div class="answer-status-hint" v-if="answerStatusHintRef">
-      <div class="correct" v-if="answerStatusHintRef.hintType === 'correct'">
-        {{ answerStatusHintRef.content }}
-      </div>
-      <div class="wrong" v-else-if="answerStatusHintRef.hintType === 'wrong'">
-        {{ answerStatusHintRef.content }}
+    <div class="css-answer">
+      <form @submit="formSubmit" class="submit-answer-form">
+        <input class="answer-input" ref="answerInputRef" placeholder="输入CSS选择器，比如ol > li" autocomplete="off"
+          :value="answerValueRef" @input="(event) => answerValueRef = event.target.value" />
+        <button class="submit-button" type="submit">{{ buttonTextRef }}</button>
+      </form>
+      <div class="answer-status-hint" v-if="answerStatusHintRef">
+        <div class="correct" v-if="answerStatusHintRef.hintType === 'correct'">
+          {{ answerStatusHintRef.content }}
+        </div>
+        <div class="wrong" v-else-if="answerStatusHintRef.hintType === 'wrong'">
+          {{ answerStatusHintRef.content }}
+        </div>
       </div>
     </div>
   </div>
@@ -100,61 +102,77 @@ watch(() => props.answerStatus, (answerStatus) => {
 <style lang="scss" scoped>
 .css-answer-wrapper {
   display: flex;
-  flex-direction: column;
-  min-width: 360px;
 
-  .answer-status-hint {
-    white-space: pre-wrap;
+  .css-answer {
+    flex-grow: 1;
     display: flex;
-    align-items: center;
-    padding: 0 12px;
-    font-size: 16px;
+    flex-direction: column;
 
-    .correct {
-      color: #5d9e53;
+    .answer-status-hint {
+      white-space: pre-wrap;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 16px;
+
+      .correct {
+        color: #5d9e53;
+      }
+
+      .wrong {
+        color: #d47d7d;
+      }
     }
 
-    .wrong {
-      color: #d47d7d;
+    .submit-answer-form {
+      display: flex;
+      padding: 6px 12px;
+
+      .answer-input {
+        background-color: #111111;
+        color: white;
+        border: 1px solid #222;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 16px;
+        margin-right: 6px;
+        // 宽屏时，该组件宽度360px
+        width: calc(360px - 24px - 60px - 6px);
+
+        &.answer-correct {
+          border: 1px solid #5d9e53;
+        }
+
+        &.answer-invalid {
+          border: 1px solid #a82e25;
+        }
+      }
+
+      .submit-button {
+        font-size: 16px;
+        padding: 12px 4px;
+        border-radius: 4px;
+        border: none;
+        min-width: 60px;
+        color: white;
+        background-color: #4e8ff7;
+
+        &:hover {
+          background-color: #2f6eeb;
+          cursor: pointer;
+        }
+      }
     }
   }
+}
 
-  .submit-answer-form {
-    display: flex;
-    padding: 6px 12px;
-
-    .answer-input {
-      background-color: #111111;
-      color: white;
-      border: 1px solid #222;
-      border-radius: 4px;
-      padding: 12px;
-      font-size: 16px;
-      margin-right: 6px;
-      flex-grow: 1;
-      flex-shrink: 1;
-
-      &.answer-correct {
-        border: 1px solid #5d9e53;
-      }
-
-      &.answer-invalid {
-        border: 1px solid #a82e25;
-      }
-    }
-
-    .submit-button {
-      font-size: 16px;
-      padding: 12px 4px;
-      border-radius: 4px;
-      border: none;
-      width: 80px;
-      color: white;
-      background-color: #4e8ff7;
-
-      &:hover {
-        background-color: #2f6eeb;
-        cursor: pointer;
+@media (max-width: 700px) {
+  .css-answer-wrapper {
+    .css-answer {
+      .submit-answer-form {
+        .answer-input {
+          width: calc(100% - 60px - 6px);
+        }
       }
     }
   }
