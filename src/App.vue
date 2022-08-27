@@ -55,7 +55,6 @@ watch(currentQuestionAnswerTimeRef, () => {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  max-height: 100vh;
   min-width: 100vw;
   max-width: 100vw;
   background-color: black;
