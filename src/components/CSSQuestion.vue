@@ -286,6 +286,8 @@ watch(() => props.answer, () => {
         border-radius: 4px;
         padding: 6px;
         color: white;
+        // display above Timer component
+        z-index: 1;
       }
     }
 
