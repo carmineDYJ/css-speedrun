@@ -39,35 +39,27 @@ watch(() => props.currentQuestionIndex, () => {
       children.classList.remove('correct-selected')
       children.classList.remove('wrong-selected')
     }
-    // show hint after designated time
-    if (questionTextHint.value) {
-      setTimeout(() => {
-        showTextHint.value = true
-      }, 1000)
-      setTimeout(() => {
-        showLinkHint.value = true
-      }, 2000)
-    } else {
-      setTimeout(() => {
-        showLinkHint.value = true
-      }, 1000)
-    }
+    showHintAfterSeconds()
   }
 })
 
 // show hint after designated time
-if (questionTextHint.value) {
-  setTimeout(() => {
-    showTextHint.value = true
-  }, 1000)
-  setTimeout(() => {
-    showLinkHint.value = true
-  }, 2000)
-} else {
-  setTimeout(() => {
-    showLinkHint.value = true
-  }, 1000)
+const showHintAfterSeconds = () => {
+  if (questionTextHint.value) {
+    setTimeout(() => {
+      showTextHint.value = true
+    }, 10000)
+    setTimeout(() => {
+      showLinkHint.value = true
+    }, 20000)
+  } else {
+    setTimeout(() => {
+      showLinkHint.value = true
+    }, 10000)
+  }
 }
+showHintAfterSeconds()
+
 
 
 // when set/update display code style, close tag on a single line should be ignored/jumped
