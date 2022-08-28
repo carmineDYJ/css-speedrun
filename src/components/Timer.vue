@@ -91,9 +91,11 @@ watch(() => props.questionsAnswered, () => {
 @keyframes timer-jump-animation {
   0% {
     transform: translate(-50%, -50%);
+    opacity: 1;
   }
   100% {
     transform: translate(-50%, -50%) translateY(-36px);
+    opacity: 0;
   }
 }
 </style>
