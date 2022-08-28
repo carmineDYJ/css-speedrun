@@ -167,14 +167,17 @@ watch(() => props.answer, () => {
     <div class="question-hint">
       <div class="text-hint" v-if="questionTextHint && showTextHint" @mouseover="showTextHintContent = true"
         @mouseleave="showTextHintContent = false">
+        <img class="text-hint-svg" src="../assets/icons/question.svg" />
         我是一个提示
         <div class="text-hint-content" v-if="showTextHintContent" v-html="questionTextHint">
         </div>
       </div>
       <div class="link-hint" v-if="questionTextHint && questionLinkHint && showLinkHint">
+        <img class="link-hint-svg" src="../assets/icons/link.svg" />
         <a :href="questionLinkHint" target="_blank">我是另一个提示</a>
       </div>
       <div class="link-hint" v-if="!questionTextHint && questionLinkHint && showLinkHint">
+        <img class="link-hint-svg" src="../assets/icons/link.svg" />
         <a :href="questionLinkHint" target="_blank">我是一个提示</a>
       </div>
       <div class="placeholder-hint" v-if="questionTextHint || questionLinkHint">
@@ -244,7 +247,7 @@ watch(() => props.answer, () => {
           display: flex;
           align-items: center;
           font-size: 16px;
-          font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+          font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 
           >.tag {
             color: #d47d7d;
@@ -275,6 +278,11 @@ watch(() => props.answer, () => {
         color: white;
       }
 
+      >.text-hint-svg {
+        height: 1em;
+        vertical-align: text-top;
+      }
+
       >.text-hint-content {
         font-weight: bolder;
         width: max-content;
@@ -294,6 +302,11 @@ watch(() => props.answer, () => {
     >.link-hint {
       &:hover {
         color: white;
+      }
+
+      >.link-hint-svg {
+        height: 1em;
+        vertical-align: text-top;
       }
     }
 
