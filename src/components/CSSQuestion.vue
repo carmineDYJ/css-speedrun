@@ -33,26 +33,40 @@ watch(() => props.currentQuestionIndex, () => {
     questionLinkHint.value = CSSQuestions[props.currentQuestionIndex]['linkHint']
     showTextHint.value = false
     showLinkHint.value = false
+    showTextHintContent.value = false
     // remove selected style
     for (const children of questionVisibleCodeRef.value.children) {
       children.classList.remove('correct-selected')
       children.classList.remove('wrong-selected')
     }
+    // show hint after designated time
+    if (questionTextHint.value) {
+      setTimeout(() => {
+        showTextHint.value = true
+      }, 1000)
+      setTimeout(() => {
+        showLinkHint.value = true
+      }, 2000)
+    } else {
+      setTimeout(() => {
+        showLinkHint.value = true
+      }, 1000)
+    }
   }
 })
 
-// show text hint after first 10 seconds
+// show hint after designated time
 if (questionTextHint.value) {
   setTimeout(() => {
     showTextHint.value = true
-  }, 10000)
+  }, 1000)
   setTimeout(() => {
     showLinkHint.value = true
-  }, 20000)
+  }, 2000)
 } else {
   setTimeout(() => {
     showLinkHint.value = true
-  }, 10000)
+  }, 1000)
 }
 
 
@@ -176,7 +190,7 @@ watch(() => props.answer, () => {
         <img class="link-hint-svg" src="../assets/icons/link.svg" />
         <a :href="questionLinkHint" target="_blank">我是另一个提示</a>
       </div>
-      <div class="link-hint" v-if="!questionTextHint && questionLinkHint && showLinkHint">
+      <div class="link-hint" v-else-if="(!questionTextHint) && questionLinkHint && showLinkHint">
         <img class="link-hint-svg" src="../assets/icons/link.svg" />
         <a :href="questionLinkHint" target="_blank">我是一个提示</a>
       </div>
