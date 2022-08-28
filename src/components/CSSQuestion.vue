@@ -244,7 +244,7 @@ watch(() => props.answer, () => {
           display: flex;
           align-items: center;
           font-size: 16px;
-          font-family: 'Consolas';
+          font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
 
           >.tag {
             color: #d47d7d;

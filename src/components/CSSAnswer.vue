@@ -113,6 +113,7 @@ watch(() => props.answerStatus, (answerStatus) => {
           background: #111;
           border: 1px solid #222;
           padding: 2px 6px;
+          font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
         }
       }
 
