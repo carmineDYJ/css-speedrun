@@ -177,7 +177,7 @@ watch(() => props.answer, () => {
       <div class="link-hint" v-if="!questionTextHint && questionLinkHint && showLinkHint">
         <a :href="questionLinkHint" target="_blank">我是一个提示</a>
       </div>
-      <div class="placeholder-hint">
+      <div class="placeholder-hint" v-if="questionTextHint || questionLinkHint">
         &#12288;
       </div>
     </div>
