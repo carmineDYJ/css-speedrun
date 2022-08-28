@@ -157,9 +157,9 @@ watch(() => props.answer, () => {
       </div>
       <div class="question-code" ref="questionVisibleCodeRef">
         <code class="question-code-line" v-for="(item, index) in questionCodeLineArray">
-          <p>
+          <span>
             {{ item }}
-          </p>
+          </span>
         </code>
       </div>
       <div class="question-html" ref="questionInvisibleCodeRef" v-html="questionCode"></div>
@@ -237,7 +237,7 @@ watch(() => props.answer, () => {
       padding-right: 12px;
 
       >.question-code-line {
-        p {
+        span {
           min-width: max-content;
           height: 26px;
           color: #ccc;

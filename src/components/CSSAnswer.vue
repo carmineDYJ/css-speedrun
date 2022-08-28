@@ -9,7 +9,7 @@ const answerValueRef = ref(null)
 const answerInputRef = ref(null)
 const buttonTextRef = ref('提交')
 
-const answerStatusHintRef = ref(null)
+const showAnswerStatusHintRef = ref(false)
 const questionAnswer = computed(() => {
   return CSSQuestions[props.currentQuestionIndex]['answer']
 })
@@ -58,22 +58,9 @@ watch(() => props.answerStatus, () => {
 
 watch(() => props.answerStatus, (answerStatus) => {
   if (answerStatus === 'answering') {
-    answerStatusHintRef.value = null;
-  } else if (answerStatus === 'answerCorrect') {
-    answerStatusHintRef.value = {
-      hintType: 'correct',
-      content: `示例答案: ${questionAnswer.value}`
-    }
-  } else if (answerStatus === 'allAnswered') {
-    answerStatusHintRef.value = {
-      hintType: 'correct',
-      content: `示例答案: ${questionAnswer.value}\n恭喜你，全部答对啦！`
-    }
-  } else if (answerStatus === 'answerInvalidSelector') {
-    answerStatusHintRef.value = {
-      hintType: 'wrong',
-      content: `选择器无效哦，请检查后再试`
-    }
+    showAnswerStatusHintRef.value = false;
+  } else if (answerStatus === 'answerCorrect' || answerStatus === 'allAnswered' || answerStatus === 'answerInvalidSelector') {
+    showAnswerStatusHintRef.value = true;
   }
 })
 
@@ -87,12 +74,17 @@ watch(() => props.answerStatus, (answerStatus) => {
           :value="answerValueRef" @input="(event) => answerValueRef = event.target.value" />
         <button class="submit-button" type="submit">{{ buttonTextRef }}</button>
       </form>
-      <div class="answer-status-hint" v-if="answerStatusHintRef">
-        <div class="correct" v-if="answerStatusHintRef.hintType === 'correct'">
-          {{ answerStatusHintRef.content }}
+      <div class="answer-status-hint" v-if="showAnswerStatusHintRef">
+        <div class="correct" v-if="props.answerStatus === 'answerCorrect'">
+          示例答案: <code>{{questionAnswer}}</code>
         </div>
-        <div class="wrong" v-else-if="answerStatusHintRef.hintType === 'wrong'">
-          {{ answerStatusHintRef.content }}
+        <div class="correct" v-else-if="props.answerStatus === 'allAnswered'">
+          示例答案: <code>{{questionAnswer}}</code>
+          <br>
+          恭喜你，全部答对啦！
+        </div>
+        <div class="wrong" v-else-if="props.answerStatus === 'answerInvalidSelector'">
+          选择器无效哦，请检查后再试
         </div>
       </div>
     </div>
@@ -117,6 +109,11 @@ watch(() => props.answerStatus, (answerStatus) => {
 
       .correct {
         color: #5d9e53;
+        code {
+          background: #111;
+          border: 1px solid #222;
+          padding: 2px 6px;
+        }
       }
 
       .wrong {

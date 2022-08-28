@@ -9,9 +9,12 @@ const formatTimeUsed = (timeUsed) => {
 
 <template>
   <div class="question-title-wrapper">
-    <div class="question-title">
-      <img v-if="!props.completionStatus" class="box-svg" src="../assets/icons/box.svg">
-      <img v-else class="box-svg" src="../assets/icons/ticked_box.svg">
+    <div v-if="!props.completionStatus" class="question-title">
+      <img class="box-svg" src="../assets/icons/box.svg">
+      {{ props.questionTitle }}
+    </div>
+    <div v-else class="question-title completed">
+      <img class="box-svg" src="../assets/icons/ticked_box.svg">
       {{ props.questionTitle }}
     </div>
     <div class="time-used" v-if="answerTimeObj">
@@ -39,6 +42,10 @@ const formatTimeUsed = (timeUsed) => {
       height: 20px;
       margin-right: 16px;
     }
+
+    &.completed {
+      color: rgb(93, 158, 83);
+    }
   }
 
   .time-used {
@@ -50,9 +57,10 @@ const formatTimeUsed = (timeUsed) => {
     visibility: hidden;
   }
 }
+
 @media (max-width: 260px) {
   .question-title-wrapper {
-    min-width: auto;
+    min-width: 0;
   }
 }
 </style>
