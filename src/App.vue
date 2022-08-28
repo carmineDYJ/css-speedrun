@@ -39,7 +39,7 @@ watch(currentQuestionAnswerTimeRef, () => {
         </div>
         <div class="timer-and-sidebar">
           <Timer class="timer" :answerStatus="answerStatusRef" :currentQuestionIndex="currentQuestionIndexRef"
-            v-model:currentQuestionAnswerTime="currentQuestionAnswerTimeRef" />
+            :questionsAnswered="questionsAnsweredRef" v-model:currentQuestionAnswerTime="currentQuestionAnswerTimeRef" />
           <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef"
             :answerTimeArray="answerTimeArray" />
         </div>

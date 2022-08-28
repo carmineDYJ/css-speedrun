@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps(['answerStatus', 'currentQuestionAnswerTime', 'currentQuestionIndex'])
+const props = defineProps(['answerStatus', 'currentQuestionAnswerTime', 'currentQuestionIndex', 'questionsAnswered'])
 const emit = defineEmits(['update:currentQuestionAnswerTime'])
 
 const currentQuestionSecondsPassed = ref(0)
@@ -9,6 +9,7 @@ const previousQuestionsSecondsPassed = ref(0)
 const totalSecondsPassed = ref(0)
 const timerIntervalId = ref(null);
 const start = ref(Date.now());
+const showTimerJumpRef = ref(false)
 
 const startTimer = () => setInterval(function () {
   let delta = Date.now() - start.value; // seconds elapsed since start
@@ -42,12 +43,21 @@ watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
     clearInterval(timerIntervalId.value);
   }
 })
+watch(() => props.questionsAnswered, () => {
+  showTimerJumpRef.value = true
+  setTimeout(() => {
+    showTimerJumpRef.value = false
+  }, 1000)
+})
 </script>
 
 <template>
   <div class="timer-wrapper">
     <div class="timer">
       {{ timePassed }}
+      <div v-if="showTimerJumpRef" class="timer-jump">
+        {{ timePassed }}
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +76,24 @@ watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
     border: 2px solid #222;
     border-radius: 4px;
     background-color: #111;
+    position: relative;
+
+    &-jump {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgb(93, 158, 83);
+      animation: timer-jump-animation 1s ease-in;
+    }
+  }
+}
+@keyframes timer-jump-animation {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-36px);
   }
 }
 </style>
