@@ -169,7 +169,7 @@ watch(() => props.answerStatus, (answerStatus) => {
     .css-answer {
       .submit-answer-form {
         .answer-input {
-          width: calc(100% - 60px - 6px);
+          width: calc(100vw - 24px - 60px - 6px);
         }
       }
     }

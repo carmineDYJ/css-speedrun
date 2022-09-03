@@ -291,6 +291,7 @@ watch(() => props.answer, () => {
       }
 
       >.text-hint-content {
+        letter-spacing: 0ch;
         width: 32ch;
         word-break: normal;
         font-family: 'NotoSansSC-Regular';
@@ -304,6 +305,9 @@ watch(() => props.answer, () => {
         color: white;
         // display above Timer component
         z-index: 1;
+        // show content in center when content is not enough for one line
+        display: flex;
+        justify-content: center;
       }
     }
 
@@ -329,6 +333,18 @@ watch(() => props.answer, () => {
     .question-display {
       .question-code {
         max-width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .css-question-wrapper {
+    .question-hint {
+      >.text-hint {
+        >.text-hint-content {
+          width: calc(100vw - 24px);
+        }
       }
     }
   }
