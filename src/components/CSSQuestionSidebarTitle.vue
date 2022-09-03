@@ -51,16 +51,17 @@ const formatTimeUsed = (timeUsed) => {
   .time-used {
     color: #ccc;
     font-weight: light;
-  }
-
-  .time-used-placeholder {
-    visibility: hidden;
+    word-break: break-all;
+    &-placeholder {
+      visibility: hidden;
+      word-break: break-all;
+    }
   }
 }
 
-@media (max-width: 260px) {
+@media (max-width: 340px) {
   .question-title-wrapper {
-    min-width: 0;
+    min-width: calc(100vw - 24px - 16px - 36px);
   }
 }
 </style>

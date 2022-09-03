@@ -1,5 +1,4 @@
 <script setup>
-import { watch } from 'vue';
 import CSSQuestions from '../questions/CSSQuestions';
 import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
 const props = defineProps(['questionsAnswered', 'currentQuestionIndex', 'answerTimeArray'])
