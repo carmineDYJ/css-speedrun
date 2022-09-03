@@ -48,7 +48,7 @@ const showHintAfterSeconds = () => {
   if (questionTextHint.value) {
     setTimeout(() => {
       showTextHint.value = true
-    }, 10000)
+    }, 100)
     setTimeout(() => {
       showLinkHint.value = true
     }, 20000)
@@ -175,7 +175,8 @@ watch(() => props.answer, () => {
         @mouseleave="showTextHintContent = false">
         <img class="text-hint-svg" src="../assets/icons/question.svg" />
         我是一个提示
-        <div class="text-hint-content" v-if="showTextHintContent" v-html="questionTextHint">
+        <div class="text-hint-content" v-if="showTextHintContent || 1">
+          {{ questionTextHint }}
         </div>
       </div>
       <div class="link-hint" v-if="questionTextHint && questionLinkHint && showLinkHint">
@@ -290,11 +291,12 @@ watch(() => props.answer, () => {
       }
 
       >.text-hint-content {
-        font-weight: bolder;
-        width: max-content;
+        width: 32ch;
+        word-break: normal;
+        font-family: 'NotoSansSC-Regular';
         position: absolute;
         font-size: 16px;
-        top: 24px;
+        top: 30px;
         left: 0;
         background-color: #2d2d2d;
         border-radius: 4px;
