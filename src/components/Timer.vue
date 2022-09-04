@@ -1,8 +1,9 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
+import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 
-const props = defineProps(['answerStatus', 'currentQuestionAnswerTime', 'currentQuestionIndex', 'questionsAnswered'])
-const emit = defineEmits(['update:currentQuestionAnswerTime'])
+const props = defineProps(['answerStatus', 'currentQuestionIndex', 'questionsAnswered'])
+const CSSQuestionsStore = useCSSQuestionsStore()
 
 const currentQuestionSecondsPassed = ref(0)
 const previousQuestionsSecondsPassed = ref(0)
@@ -27,19 +28,11 @@ watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
     start.value = Date.now();
     timerIntervalId.value = startTimer();
   } else if (answerStatus === 'answerCorrect') {
-    // the reason for emitting a obj instead of a int is when answer time for two questions are the same,
-    // the emitted value will be the same, so the answer time for the second question cannot be detected in App watch
-    emit('update:currentQuestionAnswerTime', {
-      currentQuestionIndex: props.currentQuestionIndex,
-      timeUsed: currentQuestionSecondsPassed.value,
-    })
+    CSSQuestionsStore.addAnswerTime(currentQuestionSecondsPassed.value)
     previousQuestionsSecondsPassed.value += currentQuestionSecondsPassed.value;
     clearInterval(timerIntervalId.value);
   } else if (answerStatus === 'allAnswered') {
-    emit('update:currentQuestionAnswerTime', {
-      currentQuestionIndex: props.currentQuestionIndex,
-      timeUsed: currentQuestionSecondsPassed.value,
-    })
+    CSSQuestionsStore.addAnswerTime(currentQuestionSecondsPassed.value)
     clearInterval(timerIntervalId.value);
   }
 })

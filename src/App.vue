@@ -13,14 +13,9 @@ const currentQuestionIndexRef = ref(0)
 // possible answer status: introduction, answering, answerCorrect, allAnswered
 const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
-const answerTimeArray = reactive([])
-const currentQuestionAnswerTimeRef = ref(null)
 
 watch(answerStatusRef, () => {
   console.log("answerStatusRef", answerStatusRef.value)
-})
-watch(currentQuestionAnswerTimeRef, () => {
-  answerTimeArray.push(currentQuestionAnswerTimeRef.value)
 })
 
 </script>
@@ -39,9 +34,8 @@ watch(currentQuestionAnswerTimeRef, () => {
         </div>
         <div class="timer-and-sidebar">
           <Timer class="timer" :answerStatus="answerStatusRef" :currentQuestionIndex="currentQuestionIndexRef"
-            :questionsAnswered="questionsAnsweredRef" v-model:currentQuestionAnswerTime="currentQuestionAnswerTimeRef" />
-          <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef"
-            :answerTimeArray="answerTimeArray" />
+            :questionsAnswered="questionsAnsweredRef" />
+          <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
         </div>
       </div>
     </main>

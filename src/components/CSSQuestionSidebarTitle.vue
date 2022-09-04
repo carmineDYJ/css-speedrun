@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['questionTitle', 'completionStatus', 'answerTimeObj'])
+const props = defineProps(['questionTitle', 'completionStatus', 'answerTime'])
 const formatTimeUsed = (timeUsed) => {
   let minutes = String(parseInt(timeUsed / 60)).padStart(2, '0');
   let seconds = String(timeUsed % 60).padStart(2, '0');
@@ -17,8 +17,9 @@ const formatTimeUsed = (timeUsed) => {
       <img class="box-svg" src="../assets/icons/ticked_box.svg">
       {{ props.questionTitle }}
     </div>
-    <div class="time-used" v-if="answerTimeObj">
-      <i>{{ formatTimeUsed(answerTimeObj['timeUsed']) }}</i>
+    <!-- the answer time for warm question is always zero -->
+    <div class="time-used" v-if="answerTime >= 0">
+      <i>{{ formatTimeUsed(answerTime) }}</i>
     </div>
     <div class="time-used-placeholder" v-else>
       00:00

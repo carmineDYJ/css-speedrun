@@ -1,10 +1,13 @@
 # CSS速通挑战
+`Vite + Vue3 + Pinia`  
 本项目灵感来源 [CSS Speedrun](https://github.com/Vincenius/css-speedrun)
 
 ## 项目Setup
-本地运行
+本地开发
 ```
+# 安装依赖
 pnpm install
+# 开始开发
 pnpm run dev
 ```
 打包
