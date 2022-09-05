@@ -3,12 +3,12 @@
 </script>
 
 <template>
-  <div class="top-nav-wrapper">
+  <nav class="top-nav-wrapper">
     <div class="top-nav">
       <img class="css3-svg" src="../assets/icons/css3.svg" />
       <h1>CSS速通挑战</h1>
     </div>
-  </div>
+  </nav>
 </template>
 
 <style lang="scss" scoped>
