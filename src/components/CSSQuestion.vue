@@ -262,11 +262,11 @@ watch(() => props.answer, () => {
         }
 
         &.correct-selected {
-          background: hsl(112, 31%, 47%, 0.5);
+          background: #4c6444;
         }
 
         &.wrong-selected {
-          background: hsl(4, 64%, 40%, 0.5);
+          background: #63322c;
         }
       }
 
