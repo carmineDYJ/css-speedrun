@@ -1,6 +1,11 @@
 <script setup>
-const rootHTMLElement = document.querySelector('html')
-rootHTMLElement.classList.add("fuck");
+import { ref } from 'vue';
+const switchColorModeButtonRef = ref(null)
+const switchColorModeButtonPositionClass = ref('left')
+const switchColorMode = () => {
+  document.querySelector("html").classList.contains('light-color-mode') ? document.querySelector("html").classList.remove('light-color-mode') : document.querySelector("html").classList.add('light-color-mode')
+  switchColorModeButtonPositionClass.value === 'left' ? switchColorModeButtonPositionClass.value = 'right' : switchColorModeButtonPositionClass.value = 'left'
+}
 </script>
 
 <template>
@@ -10,8 +15,8 @@ rootHTMLElement.classList.add("fuck");
         <img class="css3-svg" src="../assets/icons/css3.svg" />
         <h1>CSS速通挑战</h1>
       </div>
-      <div class="switch-dark-light-mode-button">
-        a
+      <div class="switch-color-mode-button-wrapper">
+        <button ref="switchColorModeButtonRef" class="switch-color-mode-button" :class="switchColorModeButtonPositionClass" @click="switchColorMode"></button>
       </div>
     </div>
   </nav>
@@ -27,6 +32,7 @@ rootHTMLElement.classList.add("fuck");
   >.top-nav-inner-wrapper {
     width: 688px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     >.top-nav-title {
@@ -45,6 +51,35 @@ rootHTMLElement.classList.add("fuck");
         align-items: center;
       }
     }
+
+    >.switch-color-mode-button-wrapper {
+      background-color: #222;
+      width: 55px;
+      height: 30px;
+      border-radius: 30px;
+      position: relative;
+
+      >.switch-color-mode-button {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        border: none;
+        transition: left 0.5s ease-in-out;
+
+        &:hover {
+          outline: 3px solid #5e8df0;
+        }
+        &.left {
+          left: 0;
+        }
+        &.right {
+          left: 25px;
+        }
+      }
+    }
   }
 
 }
@@ -52,6 +87,9 @@ rootHTMLElement.classList.add("fuck");
 @media (max-width: 700px) {
   .top-nav-wrapper {
     >.top-nav-inner-wrapper {
+      padding-left: 12px;
+      padding-right: 12px;
+
       >.top-nav-title {
         >.css3-svg {
           height: 40px;
