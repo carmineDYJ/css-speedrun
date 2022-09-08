@@ -29,7 +29,10 @@ const switchColorMode = () => {
         <h1>CSS速通挑战</h1>
       </div>
       <div class="switch-color-mode-button-wrapper">
-        <button class="switch-color-mode-button" :class="switchColorModeButtonPositionClass" @click="switchColorMode"></button>
+        <img class="sun-svg" src="../assets/icons/sun.svg" />
+        <img class="moon-svg" src="../assets/icons/moon.svg" />
+        <button class="switch-color-mode-button" :class="switchColorModeButtonPositionClass"
+          @click="switchColorMode"></button>
       </div>
     </div>
   </nav>
@@ -71,8 +74,22 @@ const switchColorMode = () => {
       height: 30px;
       border-radius: 30px;
       position: relative;
-
+      >.sun-svg {
+        position: absolute;
+        top: 50%;
+        left: 2px;
+        height: 20px;
+        transform: translateY(-50%);
+      }
+      >.moon-svg{
+        position: absolute;
+        top: 50%;
+        right: 2px;
+        height: 20px;
+        transform: translateY(-50%);
+      }
       >.switch-color-mode-button {
+        z-index: 1;
         position: absolute;
         left: 0;
         top: 0;
@@ -85,16 +102,17 @@ const switchColorMode = () => {
         &:hover {
           outline: 3px solid #5e8df0;
         }
+
         &.left {
           left: 0;
         }
+
         &.right {
           left: 25px;
         }
       }
     }
   }
-
 }
 
 @media (max-width: 700px) {
@@ -111,6 +129,23 @@ const switchColorMode = () => {
 
         >h1 {
           font-size: 32px;
+        }
+      }
+
+      >.switch-color-mode-button-wrapper {
+        width: 45px;
+        height: 25px;
+        border-radius: 25px;
+
+
+        >.switch-color-mode-button {
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          border-radius: 25px;
+          &.right {
+            left: 20px;
+          }
         }
       }
     }

@@ -7,4 +7,7 @@
 
 .light-color-mode {
   filter: invert(1) hue-rotate(.5turn);
+  .switch-color-mode-button-wrapper {
+    filter: invert(1) hue-rotate(.5turn);
+  }
 }
