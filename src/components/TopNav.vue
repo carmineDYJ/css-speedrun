@@ -1,10 +1,23 @@
 <script setup>
 import { ref } from 'vue';
-const switchColorModeButtonRef = ref(null)
-const switchColorModeButtonPositionClass = ref('left')
+const switchColorModeButtonPositionClass = ref(undefined)
+if (localStorage.getItem('color-mode') === 'light') {
+  document.querySelector("html").classList.add('light-color-mode')
+  switchColorModeButtonPositionClass.value = 'right'
+} else if (localStorage.getItem('color-mode') === 'dark' || !localStorage.getItem('color-mode')) {
+  document.querySelector("html").classList.remove('light-color-mode')
+  switchColorModeButtonPositionClass.value = 'left'
+}
 const switchColorMode = () => {
-  document.querySelector("html").classList.contains('light-color-mode') ? document.querySelector("html").classList.remove('light-color-mode') : document.querySelector("html").classList.add('light-color-mode')
-  switchColorModeButtonPositionClass.value === 'left' ? switchColorModeButtonPositionClass.value = 'right' : switchColorModeButtonPositionClass.value = 'left'
+  if (switchColorModeButtonPositionClass.value === 'left') {
+    switchColorModeButtonPositionClass.value = 'right'
+    document.querySelector("html").classList.add('light-color-mode')
+    localStorage.setItem('color-mode', 'light')
+  } else if (switchColorModeButtonPositionClass.value = 'right') {
+    switchColorModeButtonPositionClass.value = 'left'
+    document.querySelector("html").classList.remove('light-color-mode')
+    localStorage.setItem('color-mode', 'dark')
+  }
 }
 </script>
 
@@ -16,7 +29,7 @@ const switchColorMode = () => {
         <h1>CSS速通挑战</h1>
       </div>
       <div class="switch-color-mode-button-wrapper">
-        <button ref="switchColorModeButtonRef" class="switch-color-mode-button" :class="switchColorModeButtonPositionClass" @click="switchColorMode"></button>
+        <button class="switch-color-mode-button" :class="switchColorModeButtonPositionClass" @click="switchColorMode"></button>
       </div>
     </div>
   </nav>
