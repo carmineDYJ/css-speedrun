@@ -12,10 +12,11 @@ const { currentQuestionIndex, allCSSQuestions } = storeToRefs(CSSQuestionsStore)
 const { increaseCurrentQuestionIndex } = CSSQuestionsStore
 const CSSAnswerStore = useCSSAnswerStore()
 const { answerStatus } = storeToRefs(CSSAnswerStore)
-const { updateAnswerStatus } = CSSAnswerStore
+const { updateAnswerStatus, updateAnswer } = CSSAnswerStore
 
-const answerValueRef = ref(null)
 const answerInputRef = ref(null)
+const answerInputValueRef = ref(null)
+
 const buttonTextRef = ref('提交')
 
 const showAnswerStatusHintRef = ref(false)
@@ -23,21 +24,18 @@ const questionAnswer = computed(() => {
   return allCSSQuestions.value[currentQuestionIndex.value]['answer']
 })
 
-const updateAnswerInput = () => {
-  emit('update:answer', answerValueRef.value)
-}
 const nextQuestion = () => {
   increaseCurrentQuestionIndex()
   updateAnswerStatus('answering')
-  answerValueRef.value = ''
-  emit('update:answer', answerValueRef.value)
+  answerInputValueRef.value = null
+  updateAnswer(null)
 }
 const formSubmit = (event) => {
   event.preventDefault()
   if (answerStatus.value === 'answering'
     || answerStatus.value === 'introduction'
     || answerStatus.value === 'answerInvalidSelector') {
-    updateAnswerInput()
+    updateAnswer(answerInputValueRef.value)
   } else if (answerStatus.value === 'answerCorrect') {
     nextQuestion()
   } else if (answerStatus.value === 'allAnswered') {
@@ -83,7 +81,7 @@ watch(answerStatus, () => {
     <div class="css-answer">
       <form @submit="formSubmit" class="submit-answer-form">
         <input class="answer-input" ref="answerInputRef" placeholder="输入CSS选择器，比如ol > li" autocomplete="off"
-          :value="answerValueRef" @input="(event) => answerValueRef = event.target.value" />
+          :value="answerInputValueRef" @input="(event) => answerInputValueRef = event.target.value" />
         <button class="submit-button" type="submit">{{ buttonTextRef }}</button>
       </form>
       <div class="answer-status-hint" v-if="showAnswerStatusHintRef">

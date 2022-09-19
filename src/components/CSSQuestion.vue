@@ -4,13 +4,11 @@ import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { useCSSAnswerStore } from '../hooks/useCSSAnswer';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer'])
-
 const CSSQuestionsStore = useCSSQuestionsStore()
 const { currentQuestionIndex, allCSSQuestions, questionsAnswered } = storeToRefs(CSSQuestionsStore)
 const { increaseQuestionsAnswered } = CSSQuestionsStore
 const CSSAnswerStore = useCSSAnswerStore()
-const { answerStatus } = storeToRefs(CSSAnswerStore)
+const { answerStatus, answer } = storeToRefs(CSSAnswerStore)
 const { updateAnswerStatus } = CSSAnswerStore
 
 const questionCode = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['code'])
@@ -31,7 +29,7 @@ const questionCodeLineArray = computed(() => {
   return questionCode.value.split('\n')
 })
 
-// update question
+// called when question answering changes
 watch(currentQuestionIndex, () => {
   if (currentQuestionIndex.value <= allCSSQuestions.value.length - 1) {
     showTextHint.value = false
@@ -63,8 +61,6 @@ const showHintAfterSeconds = () => {
   }
 }
 showHintAfterSeconds()
-
-
 
 // when set/update display code style, close tag on a single line should be ignored/jumped
 // otherwise style will be appended on wrong position
@@ -98,7 +94,7 @@ const calculateResult = () => {
   const questionInvisibleCode = questionInvisibleCodeRef.value
   resultList.splice(0)
   try {
-    const selectedChildren = questionInvisibleCode.querySelectorAll(`.question-html ${props.answer}`)
+    const selectedChildren = questionInvisibleCode.querySelectorAll(`.question-html ${answer.value}`)
     for (const children of questionInvisibleCode.getElementsByTagName("*")) {
       if (Array.from(selectedChildren).includes(children)) {
         resultList.push(true)
@@ -118,7 +114,6 @@ const calculateResult = () => {
 const compareResult = () => {
   // console.log("resultList", resultList)
   // console.log("questionAnswer", questionAnswer.value)
-  console.log(answerStatus.value)
   if (questionGoal.value.toString() === resultList.toString()) {
     console.log('answer correct')
     if (questionsAnswered.value === allCSSQuestions.value.length - 1) {
@@ -148,7 +143,7 @@ const updateQuestionDisplayCode = () => {
 }
 
 // when answer updated, calculate result, compare result with answer, and update display code
-watch(() => props.answer, () => {
+watch(answer, () => {
   calculateResult()
   compareResult()
   updateQuestionDisplayCode()
