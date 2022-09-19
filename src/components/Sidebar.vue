@@ -1,5 +1,5 @@
 <script setup>
-import CSSQuestions from '../questions/CSSQuestions';
+import { CSSQuestions } from '../questions/CSSQuestions';
 import SidebarItem from './SidebarItem.vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';

@@ -1,4 +1,4 @@
-const CSSQuestions = [
+export const CSSQuestions = [
   {
     title: '热身',
     code: `<ul>
@@ -39,5 +39,3 @@ const CSSQuestions = [
     answer: 'li:nth-child(2n + 3)',
   },
 ]
-
-export default CSSQuestions
