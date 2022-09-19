@@ -137,7 +137,6 @@ const switchColorMode = () => {
         height: 25px;
         border-radius: 25px;
 
-
         >.switch-color-mode-button {
           position: absolute;
           width: 25px;
