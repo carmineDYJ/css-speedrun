@@ -19,11 +19,13 @@ const startTimer = () => setInterval(function () {
   currentQuestionSecondsPassed.value = Math.floor(delta / 1000)
   totalSecondsPassed.value = currentQuestionSecondsPassed.value + previousQuestionsSecondsPassed.value;
 }, 1000) // update about every second
-const timePassed = computed(() => {
-  let minutes = String(parseInt(totalSecondsPassed.value / 60)).padStart(2, '0');
-  let seconds = String(totalSecondsPassed.value % 60).padStart(2, '0');
+const formatTime = (secondsPassed) => {
+  const minutes = String(parseInt(secondsPassed / 60)).padStart(2, '0');
+  const seconds = String(secondsPassed % 60).padStart(2, '0');
   return `${minutes}:${seconds}`;
-})
+}
+const totalTimePassed = computed(() => formatTime(totalSecondsPassed.value))
+const currentQuestionTimePassed = computed(() => formatTime(currentQuestionSecondsPassed.value))
 watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
   if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
     start.value = Date.now();
@@ -48,9 +50,9 @@ watch(() => props.questionsAnswered, () => {
 <template>
   <div class="timer-wrapper">
     <div class="timer">
-      {{ timePassed }}
+      {{ totalTimePassed }}
       <div v-if="showTimerJumpRef" class="timer-jump">
-        {{ timePassed }}
+        {{ currentQuestionTimePassed }}
       </div>
     </div>
   </div>
@@ -88,7 +90,7 @@ watch(() => props.questionsAnswered, () => {
     opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) translateY(-36px);
+    transform: translate(-50%, -50%) translateY(-48px);
     opacity: 0;
   }
 }
