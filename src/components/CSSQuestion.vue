@@ -18,6 +18,7 @@ const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
 const questionVisibleCodeRef = ref(null)
 
+const showHintTimeOut = ref(null)
 const showTextHint = ref(false)
 const showLinkHint = ref(false)
 const showTextHintContent = ref(false)
@@ -42,21 +43,22 @@ watch(currentQuestionIndex, () => {
       children.classList.remove('correct-selected')
       children.classList.remove('wrong-selected')
     }
+    clearTimeout(showHintTimeOut.value)
     showHintAfterSeconds()
   }
 })
 
 // show hint after designated time
 const showHintAfterSeconds = () => {
-  if (questionTextHint.value) {
-    setTimeout(() => {
+  if (questionTextHint.value && questionLinkHint.value) {
+    showHintTimeOut.value = setTimeout(() => {
       showTextHint.value = true
+      setTimeout(() => {
+        showLinkHint.value = true
+      }, 10000)
     }, 10000)
-    setTimeout(() => {
-      showLinkHint.value = true
-    }, 20000)
-  } else {
-    setTimeout(() => {
+  } else if (questionLinkHint.value && !questionTextHint.value) {
+    showHintTimeOut.value = setTimeout(() => {
       showLinkHint.value = true
     }, 10000)
   }
