@@ -3,13 +3,12 @@ import SidebarItem from './SidebarItem.vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['questionsAnswered' ])
 const store = useCSSQuestionsStore()
-const {answerTimeEachQuestion, currentQuestionIndex, allCSSQuestions} = storeToRefs(store)
+const {answerTimeEachQuestion, currentQuestionIndex, allCSSQuestions, questionsAnswered} = storeToRefs(store)
 
 const CSSQuestionTitles = allCSSQuestions.value.map(question => question.title)
 const checkAnsweredStatus = (index) => {
-  if (index <= props.questionsAnswered - 1) {
+  if (index <= questionsAnswered.value - 1) {
     return true
   } else {
     return false

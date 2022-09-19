@@ -3,11 +3,12 @@ import { computed, reactive, ref, watch } from 'vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer', 'answerStatus', 'questionsAnswered'])
-const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
+const props = defineProps(['answer', 'answerStatus'])
+const emit = defineEmits(['update:answerStatus'])
 
 const store = useCSSQuestionsStore()
-const {currentQuestionIndex, allCSSQuestions} = storeToRefs(store)
+const {currentQuestionIndex, allCSSQuestions, questionsAnswered} = storeToRefs(store)
+const {increaseQuestionsAnswered} = store
 
 const questionCode = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['code'])
 const questionGoal = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['goal'])
@@ -116,12 +117,12 @@ const compareResult = () => {
   // console.log("questionAnswer", questionAnswer.value)
   if (questionGoal.value.toString() === resultList.toString()) {
     console.log('answer correct')
-    if (props.questionsAnswered === allCSSQuestions.value.length - 1) {
+    if (questionsAnswered.value === allCSSQuestions.value.length - 1) {
       emit('update:answerStatus', 'allAnswered')
     } else {
       emit('update:answerStatus', 'answerCorrect')
     }
-    emit('update:questionsAnswered', props.questionsAnswered + 1)
+    increaseQuestionsAnswered()
   }
 }
 // based on result, update display code

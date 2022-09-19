@@ -11,7 +11,6 @@ import Footer from './components/Footer.vue';
 const answerRef = ref(null)
 // possible answer status: introduction, answering, answerCorrect, allAnswered
 const answerStatusRef = ref('introduction')
-const questionsAnsweredRef = ref(0)
 
 watch(answerStatusRef, () => {
   console.log("answerStatusRef", answerStatusRef.value)
@@ -27,12 +26,11 @@ watch(answerStatusRef, () => {
       <div class="answer-question-timer-and-sidebar">
         <div class="answer-and-question">
           <CSSAnswer class="answer" v-model:answer="answerRef" v-model:answerStatus="answerStatusRef" />
-          <CSSQuestion class="question" :answer="answerRef"         v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
+          <CSSQuestion class="question" :answer="answerRef"         v-model:answerStatus="answerStatusRef" />
         </div>
         <div class="timer-and-sidebar">
-          <Timer class="timer" :answerStatus="answerStatusRef"
-            :questionsAnswered="questionsAnsweredRef" />
-          <Sidebar :questionsAnswered="questionsAnsweredRef" />
+          <Timer class="timer" :answerStatus="answerStatusRef" />
+          <Sidebar />
         </div>
       </div>
     </main>

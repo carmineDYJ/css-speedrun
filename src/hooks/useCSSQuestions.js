@@ -7,6 +7,10 @@ export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {
   const increaseCurrentQuestionIndex = () => {
     currentQuestionIndex.value += 1
   }
+  const questionsAnswered = ref(0)
+  const increaseQuestionsAnswered = () => {
+    questionsAnswered.value += 1
+  }
   const allCSSQuestions = reactive(CSSQuestions)
 
   const answerTimeEachQuestion = reactive([])
@@ -16,6 +20,8 @@ export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {
   return {
     currentQuestionIndex,
     increaseCurrentQuestionIndex,
+    questionsAnswered,
+    increaseQuestionsAnswered,
     allCSSQuestions,
     answerTimeEachQuestion,
     addAnswerTime,
