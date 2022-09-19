@@ -2,11 +2,13 @@
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
+import { useCSSAnswerStore } from '../hooks/useCSSAnswer';
 
-const props = defineProps(['answerStatus'])
-const store = useCSSQuestionsStore()
-const {questionsAnswered} = storeToRefs(store)
-const {addAnswerTime} = store
+const CSSQuestionsStore = useCSSQuestionsStore()
+const {questionsAnswered} = storeToRefs(CSSQuestionsStore)
+const {addAnswerTime} = CSSQuestionsStore
+const CSSAnswerStore = useCSSAnswerStore()
+const {answerStatus} = storeToRefs(CSSAnswerStore)
 
 const currentQuestionSecondsPassed = ref(0)
 const previousQuestionsSecondsPassed = ref(0)
@@ -28,7 +30,7 @@ const formatTime = (secondsPassed) => {
 }
 const totalTimePassed = computed(() => formatTime(totalSecondsPassed.value))
 const currentQuestionTimePassed = computed(() => formatTime(currentQuestionSecondsPassed.value))
-watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
+watch(answerStatus, (answerStatus, prevAnswerStatus) => {
   if (answerStatus === 'answering' && prevAnswerStatus === 'answerCorrect') {
     start.value = Date.now();
     timerIntervalId.value = startTimer();

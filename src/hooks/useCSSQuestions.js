@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref} from "vue";
 import { CSSQuestions } from '../questions/CSSQuestions'
 
 export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {

@@ -1,14 +1,18 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
+import { useCSSAnswerStore } from '../hooks/useCSSAnswer';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer', 'answerStatus',])
-const emit = defineEmits(['update:answer', 'update:answerStatus'])
+const props = defineProps(['answer'])
+const emit = defineEmits(['update:answer'])
 
-const store = useCSSQuestionsStore()
-const {currentQuestionIndex, allCSSQuestions} = storeToRefs(store)
-const {increaseCurrentQuestionIndex} = store
+const CSSQuestionsStore = useCSSQuestionsStore()
+const { currentQuestionIndex, allCSSQuestions } = storeToRefs(CSSQuestionsStore)
+const { increaseCurrentQuestionIndex } = CSSQuestionsStore
+const CSSAnswerStore = useCSSAnswerStore()
+const { answerStatus } = storeToRefs(CSSAnswerStore)
+const { updateAnswerStatus } = CSSAnswerStore
 
 const answerValueRef = ref(null)
 const answerInputRef = ref(null)
@@ -24,47 +28,50 @@ const updateAnswerInput = () => {
 }
 const nextQuestion = () => {
   increaseCurrentQuestionIndex()
-  emit('update:answerStatus', 'answering')
+  updateAnswerStatus('answering')
   answerValueRef.value = ''
   emit('update:answer', answerValueRef.value)
 }
 const formSubmit = (event) => {
   event.preventDefault()
-  if (props.answerStatus === 'answering'
-    || props.answerStatus === 'introduction'
-    || props.answerStatus === 'answerInvalidSelector') {
+  if (answerStatus.value === 'answering'
+    || answerStatus.value === 'introduction'
+    || answerStatus.value === 'answerInvalidSelector') {
     updateAnswerInput()
-  } else if (props.answerStatus === 'answerCorrect') {
+  } else if (answerStatus.value === 'answerCorrect') {
     nextQuestion()
-  } else if (props.answerStatus === 'allAnswered') {
-
+  } else if (answerStatus.value === 'allAnswered') {
   }
 }
-watch(() => props.answerStatus, () => {
+
+watch(answerStatus, (answerStatus, prevAnswerStatus) => {
   answerInputRef.value.classList.remove('answer-correct')
   answerInputRef.value.classList.remove('answer-invalid')
   answerInputRef.value.removeAttribute('disabled')
-  if (props.answerStatus === 'answering'
-    || props.answerStatus === 'introduction') {
+  if (answerStatus === 'answering'
+    || answerStatus === 'introduction') {
     buttonTextRef.value = '提交'
-  } else if (props.answerStatus === 'answerCorrect') {
+  } else if (answerStatus === 'answerCorrect') {
     answerInputRef.value.setAttribute('disabled', '')
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = '下一题'
-  } else if (props.answerStatus === 'allAnswered') {
+  } else if (answerStatus === 'allAnswered') {
     answerInputRef.value.setAttribute('disabled', '')
     answerInputRef.value.classList.add('answer-correct')
     buttonTextRef.value = '恭喜!'
-  } else if (props.answerStatus === 'answerInvalidSelector') {
+  } else if (answerStatus === 'answerInvalidSelector') {
+    // when jump to next question, answer will be updated
     answerInputRef.value.classList.add('answer-invalid')
     buttonTextRef.value = '提交'
   }
 })
 
-watch(() => props.answerStatus, (answerStatus) => {
-  if (answerStatus === 'answering') {
+watch(answerStatus, () => {
+  if (answerStatus.value === 'answering' || answerStatus.value === 'answering') {
     showAnswerStatusHintRef.value = false;
-  } else if (answerStatus === 'answerCorrect' || answerStatus === 'allAnswered' || answerStatus === 'answerInvalidSelector') {
+  } else if (answerStatus.value === 'answerCorrect'
+    || answerStatus.value === 'allAnswered'
+    || answerStatus.value === 'answerInvalidSelector') {
     showAnswerStatusHintRef.value = true;
   }
 })
@@ -80,15 +87,15 @@ watch(() => props.answerStatus, (answerStatus) => {
         <button class="submit-button" type="submit">{{ buttonTextRef }}</button>
       </form>
       <div class="answer-status-hint" v-if="showAnswerStatusHintRef">
-        <div class="correct" v-if="props.answerStatus === 'answerCorrect'">
+        <div class="correct" v-if="answerStatus === 'answerCorrect'">
           示例答案: <code>{{questionAnswer}}</code>
         </div>
-        <div class="correct" v-else-if="props.answerStatus === 'allAnswered'">
+        <div class="correct" v-else-if="answerStatus === 'allAnswered'">
           示例答案: <code>{{questionAnswer}}</code>
           <br>
           恭喜你，全部答对啦！
         </div>
-        <div class="wrong" v-else-if="props.answerStatus === 'answerInvalidSelector'">
+        <div class="wrong" v-else-if="answerStatus === 'answerInvalidSelector'">
           选择器无效哦，请检查后再试
         </div>
       </div>
@@ -114,11 +121,12 @@ watch(() => props.answerStatus, (answerStatus) => {
 
       .correct {
         color: #5d9e53;
+
         code {
           background: #111;
           border: 1px solid #222;
           padding: 2px 6px;
-          font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+          font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
       }
 

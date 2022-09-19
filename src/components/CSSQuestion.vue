@@ -1,14 +1,17 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
+import { useCSSAnswerStore } from '../hooks/useCSSAnswer';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer', 'answerStatus'])
-const emit = defineEmits(['update:answerStatus'])
+const props = defineProps(['answer'])
 
-const store = useCSSQuestionsStore()
-const {currentQuestionIndex, allCSSQuestions, questionsAnswered} = storeToRefs(store)
-const {increaseQuestionsAnswered} = store
+const CSSQuestionsStore = useCSSQuestionsStore()
+const { currentQuestionIndex, allCSSQuestions, questionsAnswered } = storeToRefs(CSSQuestionsStore)
+const { increaseQuestionsAnswered } = CSSQuestionsStore
+const CSSAnswerStore = useCSSAnswerStore()
+const { answerStatus } = storeToRefs(CSSAnswerStore)
+const { updateAnswerStatus } = CSSAnswerStore
 
 const questionCode = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['code'])
 const questionGoal = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['goal'])
@@ -103,24 +106,25 @@ const calculateResult = () => {
         resultList.push(false)
       }
     }
-    emit('update:answerStatus', 'answering')
+    updateAnswerStatus('answering')
   } catch (error) {
     // otherwise display result cannot be updated when selector is not valid
     const wrongSelectorResultList = Array(questionInvisibleCode.getElementsByTagName("*").length).fill(false)
     Object.assign(resultList, wrongSelectorResultList)
-    emit('update:answerStatus', 'answerInvalidSelector')
+    updateAnswerStatus('answerInvalidSelector')
   }
 }
 // compare result to see if answer is correct
 const compareResult = () => {
   // console.log("resultList", resultList)
   // console.log("questionAnswer", questionAnswer.value)
+  console.log(answerStatus.value)
   if (questionGoal.value.toString() === resultList.toString()) {
     console.log('answer correct')
     if (questionsAnswered.value === allCSSQuestions.value.length - 1) {
-      emit('update:answerStatus', 'allAnswered')
+      updateAnswerStatus('allAnswered')
     } else {
-      emit('update:answerStatus', 'answerCorrect')
+      updateAnswerStatus('answerCorrect')
     }
     increaseQuestionsAnswered()
   }
