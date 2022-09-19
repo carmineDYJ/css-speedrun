@@ -3,7 +3,7 @@ import SidebarItem from './SidebarItem.vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['questionsAnswered' ])``
+const props = defineProps(['questionsAnswered' ])
 const store = useCSSQuestionsStore()
 const {answerTimeEachQuestion, currentQuestionIndex, allCSSQuestions} = storeToRefs(store)
 
