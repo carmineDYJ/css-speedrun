@@ -1,18 +1,18 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
-import { CSSQuestions } from '../questions/CSSQuestions';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps(['answer', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
-const {currentQuestionIndex} = storeToRefs(useCSSQuestionsStore())
-const questionCode = ref(CSSQuestions[currentQuestionIndex.value]['code'])
-const questionGoal = ref(CSSQuestions[currentQuestionIndex.value]['goal'])
-const questionAnswer = ref(CSSQuestions[currentQuestionIndex.value]['answer'])
-const questionTextHint = ref(CSSQuestions[currentQuestionIndex.value]['textHint'])
-const questionLinkHint = ref(CSSQuestions[currentQuestionIndex.value]['linkHint'])
+const store = useCSSQuestionsStore()
+const {currentQuestionIndex, allCSSQuestions} = storeToRefs(store)
+
+const questionCode = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['code'])
+const questionGoal = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['goal'])
+const questionTextHint = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['textHint'])
+const questionLinkHint = computed(() => allCSSQuestions.value[currentQuestionIndex.value]['linkHint'])
 
 const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
@@ -29,12 +29,7 @@ const questionCodeLineArray = computed(() => {
 
 // update question
 watch(currentQuestionIndex, () => {
-  if (currentQuestionIndex.value <= CSSQuestions.length - 1) {
-    questionCode.value = CSSQuestions[currentQuestionIndex.value]['code']
-    questionGoal.value = CSSQuestions[currentQuestionIndex.value]['goal']
-    questionAnswer.value = CSSQuestions[currentQuestionIndex.value]['answer']
-    questionTextHint.value = CSSQuestions[currentQuestionIndex.value]['textHint']
-    questionLinkHint.value = CSSQuestions[currentQuestionIndex.value]['linkHint']
+  if (currentQuestionIndex.value <= allCSSQuestions.value.length - 1) {
     showTextHint.value = false
     showLinkHint.value = false
     showTextHintContent.value = false
@@ -121,7 +116,7 @@ const compareResult = () => {
   // console.log("questionAnswer", questionAnswer.value)
   if (questionGoal.value.toString() === resultList.toString()) {
     console.log('answer correct')
-    if (props.questionsAnswered === CSSQuestions.length - 1) {
+    if (props.questionsAnswered === allCSSQuestions.value.length - 1) {
       emit('update:answerStatus', 'allAnswered')
     } else {
       emit('update:answerStatus', 'answerCorrect')
