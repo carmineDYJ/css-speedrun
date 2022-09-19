@@ -1,9 +1,15 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { CSSQuestions } from '../questions/CSSQuestions';
+import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
+import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer', 'answerStatus', 'currentQuestionIndex'])
-const emit = defineEmits(['update:answer', 'update:currentQuestionIndex', 'update:answerStatus'])
+const props = defineProps(['answer', 'answerStatus',])
+const emit = defineEmits(['update:answer', 'update:answerStatus'])
+
+const store = useCSSQuestionsStore()
+const {currentQuestionIndex} = storeToRefs(store)
+const {increaseCurrentQuestionIndex} = store
 
 const answerValueRef = ref(null)
 const answerInputRef = ref(null)
@@ -11,14 +17,14 @@ const buttonTextRef = ref('提交')
 
 const showAnswerStatusHintRef = ref(false)
 const questionAnswer = computed(() => {
-  return CSSQuestions[props.currentQuestionIndex]['answer']
+  return CSSQuestions[currentQuestionIndex.value]['answer']
 })
 
 const updateAnswerInput = () => {
   emit('update:answer', answerValueRef.value)
 }
 const nextQuestion = () => {
-  emit('update:currentQuestionIndex', props.currentQuestionIndex + 1)
+  increaseCurrentQuestionIndex()
   emit('update:answerStatus', 'answering')
   answerValueRef.value = ''
   emit('update:answer', answerValueRef.value)

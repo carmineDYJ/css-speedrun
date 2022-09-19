@@ -1,15 +1,18 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { CSSQuestions } from '../questions/CSSQuestions';
+import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
+import { storeToRefs } from 'pinia';
 
-const props = defineProps(['answer', 'currentQuestionIndex', 'answerStatus', 'questionsAnswered'])
+const props = defineProps(['answer', 'answerStatus', 'questionsAnswered'])
 const emit = defineEmits(['update:answerStatus', 'update:questionsAnswered'])
 
-const questionCode = ref(CSSQuestions[props.currentQuestionIndex]['code'])
-const questionGoal = ref(CSSQuestions[props.currentQuestionIndex]['goal'])
-const questionAnswer = ref(CSSQuestions[props.currentQuestionIndex]['answer'])
-const questionTextHint = ref(CSSQuestions[props.currentQuestionIndex]['textHint'])
-const questionLinkHint = ref(CSSQuestions[props.currentQuestionIndex]['linkHint'])
+const {currentQuestionIndex} = storeToRefs(useCSSQuestionsStore())
+const questionCode = ref(CSSQuestions[currentQuestionIndex.value]['code'])
+const questionGoal = ref(CSSQuestions[currentQuestionIndex.value]['goal'])
+const questionAnswer = ref(CSSQuestions[currentQuestionIndex.value]['answer'])
+const questionTextHint = ref(CSSQuestions[currentQuestionIndex.value]['textHint'])
+const questionLinkHint = ref(CSSQuestions[currentQuestionIndex.value]['linkHint'])
 
 const resultList = reactive([])
 const questionInvisibleCodeRef = ref(null)
@@ -24,13 +27,13 @@ const questionCodeLineArray = computed(() => {
 })
 
 // update question
-watch(() => props.currentQuestionIndex, () => {
-  if (props.currentQuestionIndex <= CSSQuestions.length - 1) {
-    questionCode.value = CSSQuestions[props.currentQuestionIndex]['code']
-    questionGoal.value = CSSQuestions[props.currentQuestionIndex]['goal']
-    questionAnswer.value = CSSQuestions[props.currentQuestionIndex]['answer']
-    questionTextHint.value = CSSQuestions[props.currentQuestionIndex]['textHint']
-    questionLinkHint.value = CSSQuestions[props.currentQuestionIndex]['linkHint']
+watch(currentQuestionIndex, () => {
+  if (currentQuestionIndex.value <= CSSQuestions.length - 1) {
+    questionCode.value = CSSQuestions[currentQuestionIndex.value]['code']
+    questionGoal.value = CSSQuestions[currentQuestionIndex.value]['goal']
+    questionAnswer.value = CSSQuestions[currentQuestionIndex.value]['answer']
+    questionTextHint.value = CSSQuestions[currentQuestionIndex.value]['textHint']
+    questionLinkHint.value = CSSQuestions[currentQuestionIndex.value]['linkHint']
     showTextHint.value = false
     showLinkHint.value = false
     showTextHintContent.value = false

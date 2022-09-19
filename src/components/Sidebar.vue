@@ -4,9 +4,9 @@ import SidebarItem from './SidebarItem.vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['questionsAnswered', 'currentQuestionIndex', ])
+const props = defineProps(['questionsAnswered' ])
 const store = useCSSQuestionsStore()
-const {answerTimeEachQuestion} = storeToRefs(store)
+const {answerTimeEachQuestion, currentQuestionIndex} = storeToRefs(store)
 
 const CSSQuestionTitles = CSSQuestions.map(question => question.title)
 const checkAnsweredStatus = (index) => {
@@ -22,7 +22,7 @@ const checkAnsweredStatus = (index) => {
   <aside class="sidebar-wrapper">
     <ol class="sidebar">
       <li v-for="(title, index) in CSSQuestionTitles">
-        <SidebarItem v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
+        <SidebarItem v-if="currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
         <SidebarItem v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
       </li>
     </ol>

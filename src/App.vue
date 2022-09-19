@@ -9,7 +9,6 @@ import Timer from './components/Timer.vue';
 import Footer from './components/Footer.vue';
 
 const answerRef = ref(null)
-const currentQuestionIndexRef = ref(0)
 // possible answer status: introduction, answering, answerCorrect, allAnswered
 const answerStatusRef = ref('introduction')
 const questionsAnsweredRef = ref(0)
@@ -27,15 +26,13 @@ watch(answerStatusRef, () => {
       <UsageIntroduction class="usage-introduction" />
       <div class="answer-question-timer-and-sidebar">
         <div class="answer-and-question">
-          <CSSAnswer class="answer" v-model:answer="answerRef" v-model:answerStatus="answerStatusRef"
-            v-model:currentQuestionIndex="currentQuestionIndexRef" />
-          <CSSQuestion class="question" :answer="answerRef" :currentQuestionIndex="currentQuestionIndexRef"
-            v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
+          <CSSAnswer class="answer" v-model:answer="answerRef" v-model:answerStatus="answerStatusRef" />
+          <CSSQuestion class="question" :answer="answerRef"         v-model:answerStatus="answerStatusRef" v-model:questionsAnswered="questionsAnsweredRef" />
         </div>
         <div class="timer-and-sidebar">
-          <Timer class="timer" :answerStatus="answerStatusRef" :currentQuestionIndex="currentQuestionIndexRef"
+          <Timer class="timer" :answerStatus="answerStatusRef"
             :questionsAnswered="questionsAnsweredRef" />
-          <Sidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
+          <Sidebar :questionsAnswered="questionsAnsweredRef" />
         </div>
       </div>
     </main>

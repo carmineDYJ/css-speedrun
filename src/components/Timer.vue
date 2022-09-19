@@ -2,8 +2,9 @@
 import { computed, ref, watch } from 'vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 
-const props = defineProps(['answerStatus', 'currentQuestionIndex', 'questionsAnswered'])
-const CSSQuestionsStore = useCSSQuestionsStore()
+const props = defineProps(['answerStatus', 'questionsAnswered'])
+const store = useCSSQuestionsStore()
+const {addAnswerTime} = store
 
 const currentQuestionSecondsPassed = ref(0)
 const previousQuestionsSecondsPassed = ref(0)
@@ -28,11 +29,11 @@ watch(() => props.answerStatus, (answerStatus, prevAnswerStatus) => {
     start.value = Date.now();
     timerIntervalId.value = startTimer();
   } else if (answerStatus === 'answerCorrect') {
-    CSSQuestionsStore.addAnswerTime(currentQuestionSecondsPassed.value)
+    addAnswerTime(currentQuestionSecondsPassed.value)
     previousQuestionsSecondsPassed.value += currentQuestionSecondsPassed.value;
     clearInterval(timerIntervalId.value);
   } else if (answerStatus === 'allAnswered') {
-    CSSQuestionsStore.addAnswerTime(currentQuestionSecondsPassed.value)
+    addAnswerTime(currentQuestionSecondsPassed.value)
     clearInterval(timerIntervalId.value);
   }
 })
