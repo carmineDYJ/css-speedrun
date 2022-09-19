@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { CSSQuestions } from '../questions/CSSQuestions'
 
 export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {
@@ -7,6 +7,7 @@ export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {
   const increaseCurrentQuestionIndex = () => {
     currentQuestionIndex.value += 1
   }
+  const allCSSQuestions = reactive(CSSQuestions)
 
   const answerTimeEachQuestion = reactive([])
   const addAnswerTime = (currentQuestionAnswerTime) => {
@@ -15,6 +16,7 @@ export const useCSSQuestionsStore = defineStore('CSSQuestions', () => {
   return {
     currentQuestionIndex,
     increaseCurrentQuestionIndex,
+    allCSSQuestions,
     answerTimeEachQuestion,
     addAnswerTime,
   }
