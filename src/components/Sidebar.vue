@@ -1,6 +1,6 @@
 <script setup>
 import CSSQuestions from '../questions/CSSQuestions';
-import CSSQuestionSidebarTitle from './CSSQuestionSidebarTitle.vue';
+import SidebarItem from './SidebarItem.vue';
 import { useCSSQuestionsStore } from '../hooks/useCSSQuestions';
 import { storeToRefs } from 'pinia';
 
@@ -22,8 +22,8 @@ const checkAnsweredStatus = (index) => {
   <aside class="sidebar-wrapper">
     <ol class="sidebar">
       <li v-for="(title, index) in CSSQuestionTitles">
-        <CSSQuestionSidebarTitle v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
-        <CSSQuestionSidebarTitle v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
+        <SidebarItem v-if="props.currentQuestionIndex === index" class="answering" :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
+        <SidebarItem v-else :questionTitle="title" :completionStatus="checkAnsweredStatus(index)" :answerTime="answerTimeEachQuestion[index]" />
       </li>
     </ol>
   </aside>

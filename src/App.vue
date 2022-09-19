@@ -4,7 +4,7 @@ import TopNav from './components/TopNav.vue'
 import UsageIntroduction from './components/UsageIntroduction.vue';
 import CSSAnswer from './components/CSSAnswer.vue';
 import CSSQuestion from './components/CSSQuestion.vue';
-import CSSQuestionSidebar from './components/CSSQuestionSidebar.vue';
+import Sidebar from './components/Sidebar.vue';
 import Timer from './components/Timer.vue';
 import Footer from './components/Footer.vue';
 
@@ -35,7 +35,7 @@ watch(answerStatusRef, () => {
         <div class="timer-and-sidebar">
           <Timer class="timer" :answerStatus="answerStatusRef" :currentQuestionIndex="currentQuestionIndexRef"
             :questionsAnswered="questionsAnsweredRef" />
-          <CSSQuestionSidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
+          <Sidebar :questionsAnswered="questionsAnsweredRef" :currentQuestionIndex="currentQuestionIndexRef" />
         </div>
       </div>
     </main>
