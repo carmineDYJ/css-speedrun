@@ -1,15 +1,17 @@
 export const CSSQuestions = [
   {
     title: '热身',
-    code: `<ul>
+    code: `<li></li>
+<ul>
   <li></li>
   <li></li>
 </ul>
 <ol>
   <li></li>
   <li></li>
-</ol>`,
-    goal: [false, true, true, false, true, true],
+</ol>
+`,
+    goal: [false, false, true, true, false, true, true],
     answer: 'ul li, ol li',
     textHint: '选择多个元素',
     linkHint: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Grouping_selectors',
